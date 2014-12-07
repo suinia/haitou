@@ -1,0 +1,18 @@
+{
+	"name": "海投",
+	"version": "1.0",
+	"manifest_version": 2,
+	"description": "简历投递助手",
+	"permissions": ["http://*/*", "https://*/*","notifications" ],
+	"browser_action": {
+		"default_icon": "icon.png"
+	},
+	"content_scripts": [
+		{
+			"matches": ["http://*/*","https://*/*" ],
+			"css":["css/haitou.css"],
+			"js": ["js/jquery.js", "js/loader.js"],
+			"run_at":"document_end"
+		}
+	]
+}
