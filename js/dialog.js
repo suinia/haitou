@@ -31,7 +31,7 @@ Dialog.prototype.create=function(){
     this.$wrapdiv=$("<div></div>").addClass('haitou-dialog '+this.opts.customClass)
     this.dialogContentWrap=$("<div>").addClass('haitou-dialogContent');
     var that=this;
-    this.dialogCloseBtn=$("<div class='haitou-closeBtn'></div>").click(function(){
+    this.dialogCloseBtn=$("<div class='close'>×</div>").click(function(){
         that.close();
     });
     this.dialogContentWrap.append(this.dialogCloseBtn);
