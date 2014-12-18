@@ -1,0 +1,743 @@
+.clearfix:after {content:"\200B"; display:block; height:0; clear:both; }
+
+.hunterDrive form,
+.hunterDrive fieldset,
+.hunterDrive dl,
+.hunterDrive dt,
+.hunterDrive dd,
+.hunterDrive ul,
+.hunterDrive ol,
+.hunterDrive li,
+.hunterDrive pre,
+.hunterDrive p,
+.hunterDrive blockquote,
+.hunterDrive form,
+.hunterDrive input,
+.hunterDrive th,
+.hunterDrive td {
+	margin: 0;
+	padding: 0;
+	font-size: 100%;
+	font-weight: 300;
+}
+
+.hunterDrive h1,
+.hunterDrive h2,
+.hunterDrive h3,
+.hunterDrive h4,
+.hunterDrive h5,
+.hunterDrive h6 {
+	margin: 0; 
+	padding: 0;
+}
+
+.hunterDrive em,
+.hunterDrive i {
+	font-style: normal;
+}
+
+.hunterDrive a {
+	color: #333;
+	text-decoration: none;
+}
+
+.hunterDrive,
+.hunterDrive input {
+	font: 14px/1.8 arial,tahoma,"微软雅黑" !important;
+}
+
+.hunterDrive .btn { 
+	background-color: #f5f5f5;
+	display: inline-block; 
+	color: #fff; 
+	padding: 0 20px;
+	text-decoration: none; 
+	font-size: 12px; 
+	letter-spacing: 1px; 
+	border: 1px solid #999; 
+	cursor: pointer;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	line-height: 24px;
+}
+
+.hunterDrive a.btn {
+	text-align: center;
+}
+
+.hunterDrive a.btn:hover {
+	color: #fff;
+	background: #007935;
+}
+
+.hdpp-remind {
+	font: 14px/1.8 arial,tahoma,"微软雅黑" !important;
+}
+
+.hdpp-qtip {
+	max-width: 650px !important;
+}
+
+.hdpp-qtip .qtip-close{
+	right: 40px;
+	top: 25px;
+	background: transparent;
+	border: none;
+	visibility: hidden;
+	transform: rotate(40deg);
+	-webkit-transform: rotate(132deg);
+}
+
+.hdpp-qtip .qtip-close:hover{
+	color: #007935;
+}
+
+.hdpp-qtip .qtip-close:before {
+	right: 40px;
+	top: 30px;
+	background: transparent;
+	border: none;
+	font-family: "icomoon";
+	content: "\e12f";
+	visibility: visible;
+	font-size: 20px;
+}
+
+.hdpp-qtip .qtip-close:hover {
+	color: #fff;
+	background: #007935;
+}
+
+.hdpp-qtip * {
+	font-family: "微软雅黑";
+	font-style: normal;
+	margin: 0;
+	padding: 0;
+}
+
+ol,ul,menu,dir,li {
+	list-style: none;
+	list-style-type: none;
+}
+
+
+.hunterDrive-toolbar {
+	/* z-index: 2147483647; */
+	z-index: 2147483547;
+	position: fixed;
+	top: 80px;
+	right: 0;
+	height: 50px;
+	margin-right: 20px;
+	font-size: 0px !important;
+}
+
+.hunterDrive-toolbar li {
+	background: #007935;
+	width: 50px;
+	height: 50px;
+	text-align: center;
+	color: #fff;
+	display: inline-block;
+}
+
+.hunterDrive-toolbar li.name {
+	width: auto;
+	font-size: 16px;
+	color: #666;
+	background: #dedede;
+	vertical-align: top;
+	padding: 0 10px;
+	line-height: 50px;
+}
+
+.hunterDrive-toolbar li i {
+	line-height: 50px !important;
+	width: 50px;
+	height: 50px;
+}
+
+.icon-target:before {
+	content: "\e0ae";
+}
+
+.hunterDrive-toolbar li:first-child {
+	border-top: none;
+}
+
+.hunterDrive-toolbar li:hover {
+	cursor: pointer;
+}
+
+.hunterDrive-toolbar li i.home {
+	background: url("chrome-extension://__MSG_@@extension_id__/images/hd-w32.png") center center no-repeat;
+	display: inline-block;
+}
+
+/**
+ * hunterDrive overlay
+ */
+
+.hunterDrive-overlay {
+	z-index: 2147483520;
+	position: absolute;
+	top:0;
+	left: 0;
+	width: 0px;
+	height: 100%;
+	background: #f5f5f5;
+	opactiy: .6;
+	overflow: hidden;
+}
+
+.hunterDrive-overlay .contenter {
+	width: 554px;
+	margin: 0 auto;
+	padding: 30px 0;
+	background: url("chrome-extension://__MSG_@@extension_id__/images/spinner.gif") center 200px no-repeat;
+	font: 14px/2 arial,tahoma,"微软雅黑" !important;
+	overflow: hidden;
+}
+
+.hunterDrive-overlay .contenter * {
+	font: 14px/2 arial,tahoma,"微软雅黑" !important;
+}
+
+.hunterDrive-overlay .contenter.nobg {
+	background: none;
+}
+
+.hunterDrive-overlay .contenter table{
+	width: 100%;
+}
+
+.hunterDrive-overlay .contenter table td:first-child{
+	min-width: 105px;
+	text-align: left;
+}
+
+.hunterDrive-overlay .contenter table td {
+	vertical-align: top;
+	padding-right: 5px;
+}
+
+.hunterDrive-overlay .contenter img {
+	max-width: 120px;
+	display: block;
+	border: 5px solid rgba( 0, 121, 53, .1 );
+	margin: 10px 0;
+}
+
+.hunterDrive-overlay .contenter h3 {
+	height: "auto";
+	line-height: 36px !important;
+	font-size: 22px !important;
+	font-weight: bold !important;
+	background: none;
+	color: #333;
+	padding-left: 0;
+}
+
+.hunterDrive-overlay .contenter h2 {
+	height: "auto";
+	line-height: 28px !important;
+	font-size: 18px !important;
+	background: none;
+	font-weight: bold !important;;
+	color: #333;
+	padding-left: 0;
+}
+
+.hunterDrive-overlay .contenter h5,
+.hunterDrive-overlay .contenter h5 * {
+	height: "auto";
+	line-height: 26px !important;
+	font-size: 16px !important;
+	background: none;
+	font-weight: bold !important;;
+	color: #333;
+	padding-left: 0;
+	margin: 10px 0;
+}
+
+.hunterDrive-overlay .contenter h6,
+.hunterDrive-overlay .contenter h6 * {
+	height: "auto";
+	line-height: 24px !important;
+	font-size: 14px !important;
+	font-weight: bold !important;;
+	background: none;
+	color: #333;
+	padding-left: 0;
+}
+
+.hunterDrive-overlay .contenter b {
+	line-height: 24px !important;
+	font-size: 14px !important;
+	font-weight: bold !important;;
+}
+
+
+
+.hunterDrive-overlay .contenter aside {
+	font-size: 16px;
+}
+
+.hunterDrive-overlay .contenter section {
+	/* padding: 5px 5px; */
+	padding: 5px 0px;
+	/* border: 5px solid transparent; */
+}
+
+.hunterDrive-overlay .contenter section:hover {
+	/* border: 5px solid rgba( 0, 121, 53, .3 ); */
+}
+
+/**
+ * hunterDrive interface
+ */
+ 
+.hunterDrive.hunterDrive-interface,
+.hunterDrive.hunterDrive-interface input {
+	font: 12px/1.8 arial,tahoma,"微软雅黑" !important;
+	color: #777;
+}
+
+.hunterDrive-interface {
+	position: fixed;
+	top: 0;
+	right: -232px;
+	width: 230px;
+	height: 100%;
+	background: #eaeaea;
+	border-left: 2px solid #007935;
+	z-index: 2147483530;
+}
+
+.hunterDrive-interface .btn {
+	width: 100%;
+	color: #777;
+}
+
+.hunterDrive-interface .btn.load {
+	color: #fff;
+	background: #007935;
+	border: 1px solid #060;
+	display: none;
+}
+
+.hunterDrive-interface .contenter {
+	padding: 20px 20px 0;
+}
+
+.hunterDrive-interface h2 {
+	font-size: 16px;
+	color: #060;
+	line-height: 30px;
+	font-weight: 300;
+	margin-bottom: 5px;
+}
+
+.hunterDrive-interface h2 i {
+	margin-right: 10px;
+	line-height: 30px;
+	height: 30px;
+	display: inline-block;
+	-webkit-transform: rotate(-46deg);
+	vertical-align: top;
+	cursor: pointer; 
+}
+
+.hunterDrive-interface h2 i:before {
+	font-size: 24px;
+	font-weight: 100;
+}
+
+.hunterDrive-interface input[type=text],
+.hunterDrive-interface input[type=password] {
+	width: 135px;
+	height: 26px;
+	line-height: 26px;
+	border: none;
+	border-bottom: 1px solid #989898;
+	padding-left: 5px;
+	background: transparent;
+}
+
+/** checkbox */
+.hunterDrive-interface .checkbox:hover {
+	cursor: pointer;
+}
+
+.hunterDrive-interface .checkbox input[type="checkbox"] {
+	display: none;
+}
+
+.hunterDrive-interface .checkbox span {
+	line-height: 16px;
+	font-size: 14px;
+	display: inline-block;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.hunterDrive-interface .checkbox span::before {
+	font-family: "icomoon";
+	content: "\e139";
+	color: #aeaeae;
+}
+
+.hunterDrive-interface.checkbox input[type=checkbox]:checked ~ span::before {
+	content:"\e138";
+}
+
+
+.hunterDrive-interface .loginBox input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px #eaeaea inset;
+}
+
+.hunterDrive-interface .loginBox ol {
+	margin-top: 5px;
+}
+
+.hunterDrive-interface .loginBox li {
+	line-height: 30px;
+}
+
+.hunterDrive-interface .loginBox li a:not(:first-child) {
+	margin-left: 8px;
+}
+
+.hunterDrive-interface .loginBox li:last-child {
+	margin-top: 15px;
+}
+
+.hunterDrive-interface .loginBox li a:last-child::before {
+	content: "|";
+	color: #ccc;
+	margin-right: 10px;
+}
+
+.hunterDrive-interface .editBox form > div {
+	margin-top: 15px;
+}
+
+.hunterDrive-interface .editBox .text-core {
+	display: inline-block;
+}
+
+.hunterDrive-interface .editBox .text-core .text-tags .text-tag .text-button {
+	border: 1px solid #999;
+	color: #777;
+}
+
+.hunterDrive-interface .editBox .text-core .text-tags .text-tag .text-button:hover {
+	background: #007935;
+	color: #fff;
+}
+
+
+.hunterDrive-interface .editBox .text-wrap {
+	width: 100%;
+	background: transparent;
+}
+
+.hunterDrive-interface .editBox .text-prompt {
+	font-size: 12px;
+}
+
+.hunterDrive-interface .editBox dd {
+	line-height: 30px;
+}
+
+.hunterDrive-interface .editBox form dl dd textarea {
+	width: 100%;
+	background: transparent;
+	min-height: 28px;
+	border: 1px solid transparent;
+	border-bottom: 1px solid #999;
+	padding-left: 5px;
+	line-height: 18px;
+}
+
+.hunterDrive-interface .editBox .textext .text-core {
+	width: 60%;
+	display: inline-block;
+}
+
+.hunterDrive-interface .editBox .textext .text-wrap {
+	width: 100%;
+}
+
+.hunterDrive-interface .editBox .textext input[type=text] {
+	width: 100%;
+	background: transparent;
+	min-height: 28px;
+	border: 1px solid transparent;
+	border-bottom: 1px solid #999;
+	line-height: 18px;
+}
+
+.hunterDrive-interface .recommendedBox {
+	padding: 5px 0 10px 0;
+}
+
+.hunterDrive-interface .recommendedBox li {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	border: 1px solid #999;
+	color: #777;
+	padding: 0 2px;
+	margin: 5px 5px 0 0;
+	line-height: 16px !important;
+	letter-spacing: 1px;
+	display: inline-block;
+}
+
+.hunterDrive-interface .recommendedBox li:hover {
+	cursor: pointer;
+	background: #007935;
+	color: #fff;
+}
+
+.hunterDrive-interface .loading {
+	width: 40px;
+	height: 26px;
+	background: url("chrome-extension://__MSG_@@extension_id__/images/spinner.gif") center center no-repeat;
+	background-size: 60%;
+	display: inline-block;
+	vertical-align: middle;
+	margin-left: 5px;
+}
+
+.hunterDrive-interface .success {
+	clolor: #007935;
+	margin-left: 5px;
+}
+
+.hunterDrive-interface .footer {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	height: 40px;
+	line-height: 40px;
+	padding-left: 70px;
+	background: url("chrome-extension://__MSG_@@extension_id__/images/hd32.png") 180px center no-repeat;
+}
+
+.hunterDrive-interface .footer.cbg {
+	background-position: 20px center;
+}
+
+.hunterDrive-interface .footer a {
+	margin-left: 10px;
+}
+
+
+
+/** 各网站特定样式 */
+
+/** chinahr 中华英才网 */
+.chinahr table {
+	table-layout: fixed;
+}
+
+.chinahr th{
+	width: 105px;
+	text-align: left;
+	vertical-align: top;
+	padding-right: 5px;
+	font-weight: 300;
+}
+
+.chinahr th, .chinahr td {
+	font: 12px/2 arial,tahoma,"微软雅黑" !important;
+}
+
+/** zhaopin 智联 */
+.zhaopin.contenter section table td:first-child{
+	width: 105px;
+}
+
+.zhaopin.contenter section h6 {
+	font-weight: 300;
+}
+
+.zhaopin h5 { margin: 10px 0; }
+
+.zhaopin aside div:first-child { font-size: 16px; font-weight: bold; }
+
+/** lietou 猎聘 */
+.lietou dt, .lietou dd {
+	display: inline-block;
+}
+
+.liepin th, .lietou th {
+	width: 100px;
+	text-align: left;
+}
+
+.hunterDrive-overlay .contenter.lietou dd img {
+	border: none;
+	margin: 0;
+}
+
+/** headin 海丁网 */
+.headin b { font-size: 16px; }
+.headin h5 { margin: 10px 0; }
+
+.headin th { 
+	font-size: 12px;
+	font-weight: bold;
+	color: #333; 
+	text-align: left;
+	line-height: 2;
+	vertical-align: top;
+}
+
+/** linkedin */
+.linkedin a { 
+	color: #333;
+	text-decoration: none;
+	font-size: 12px;
+}
+
+.linkedin strong { font-size: 16px; }
+.linkedin strong + h5 + div { font-size: 14px; }
+
+.linkedin section:first-child th { 
+	width: 90px;
+}
+
+.linkedin section:first-child td li { 
+	display: inline-block;
+	margin-right: 5px;
+}
+
+.linkedin h5 { margin: 10px 0; }
+
+@media print {
+	.hunterDrive-overlay .contenter {
+		width: 100%;
+		margin: 0 !important;
+		font-size: 12px !important;
+	}
+	
+	.hunterDrive-overlay * {
+		font-size: 12px !important;
+	}
+	
+	.hunterDrive-toolbar { display: none; }
+	
+	article {
+	   page-break-before: always;
+	}
+	
+	ul, img {
+	   page-break-inside: avoid;
+	}
+	
+	h1, h2, h3, h4, h5, h6 { page-break-after: avoid; }
+}
+
+/** 动画效果 */
+.hdload {
+	width: 50px;
+	height: 50px;
+	background: rgb(0,121,53) url("chrome-extension://__MSG_@@extension_id__/images/hd-w192.png") center center no-repeat;
+	background-size: 70%;
+	-webkit-animation: animations .5s ease-out;
+}
+
+.hdload ul {
+	position: absolute;
+	visibility: hidden;
+}
+
+.callin:hover {
+	-webkit-animation: hoverAnimations 5s linear infinite;
+}
+
+.callin:hover + li {
+	opacity: .6;
+}
+
+@-webkit-keyframes animations{
+	0% {
+		width: 50px; 
+		height: 50px; 
+		-webkit-transform:translate(0,-150px); 
+		border-radius: 50%; 
+	}
+
+	50%{
+		width: 120px; 
+		height: 120px; 
+		border-radius: 50%; 
+		-webkit-transform:translate(0,0); 
+		-webkit-box-shadow: 0 0 1px 1px rgba(0,121,53,.4);
+	}
+
+	60%{
+		-webkit-box-shadow: 0 0 10px 10px rgba(0,121,53,.3);
+	}
+
+	65%{
+		border-radius: 50%; 
+		-webkit-box-shadow: 0 0 15px 15px rgba(0,121,53,.2)
+	}
+
+	80%{
+		background-color: rgba(0,121,53,.1);
+	}
+
+	95%{
+		border-radius: 10%; 
+		-webkit-box-shadow: 0 0 30px 30px rgba(0,121,53,.2)
+	}
+
+}
+
+@-webkit-keyframes hoverAnimations{
+	0%{
+		/* background-color:#dedede; */
+		border-radius: 50%; 
+		-webkit-box-shadow: 0 0 1px 1px rgba(0,121,53,.4);
+	}
+
+	20%{
+		-webkit-box-shadow: 0 0 10px 10px rgba(0,121,53,.3);
+	}
+
+	30%{
+		-webkit-box-shadow: 0 0 15px 15px rgba(0,121,53,.2)
+	}
+
+	70%{
+		-webkit-box-shadow: 0 0 30px 30px rgba(0,121,53,.2)
+		background-color: rgba(0,121,53,.2);
+	}
+	
+}
+
+
+/** capactity.html */
+
+.hunterDrive .hd-nocapacity {}
+.hunterDrive .hd-nocapacity dt { font-size: 14px; color: #62b300; }
+.hunterDrive .hd-nocapacity dt i { 
+	font-size: 22px; 
+	color: #62b300; 
+	margin-right: 5px; 
+	float: left;
+	vertical-align: top;
+	transform: rotate( 270deg );
+	-webkit-transform: rotate( 270deg );
+}
+
+.hunterDrive .hd-nocapacity  dd { padding: 0 5px; }
+.hunterDrive .hd-nocapacity  dt + dd { padding: 20px 5px; }

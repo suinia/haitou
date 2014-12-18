@@ -1,0 +1,31 @@
+<form class="loginBox">
+	<div>
+		<h2><i class="out icon-arrow-up-left3"></i>请先登录简历宝</h2>
+		<ol>
+			<li>
+				<em>账户：</em>
+				<input type='text' name='identity' data-rule-required='true'
+					data-msg-required='账户不能为空' 
+					data-rule-email='true'  
+					data-msg-email='Email格式错误'
+					autocomplete="off" /></li>
+			</li>
+			<li>
+				<em>密码：</em>
+				<input type="text" style="display:none;" />
+				<input type='password' name='password'
+					data-rule-required='true'
+					data-msg-required='密码不能为空'/>
+			</li>
+			<!--  li><label class='checkbox'><input type='checkbox' name='remberLoginInfo' /><span></span><em style='margin-left:5px;'>记住登录信息</em></label></li -->
+			<li>
+				<input type='submit' class='btn' value='登录' />
+				<input type="button" class="btn load" value="登录中." data-val="登录中." />
+				<div>
+					<a href='{base}/toRegister.jhtml' target='_blank'>注册</a>
+					<a href='{base}/toRetrievePassword.jhtml'  target='_blank'>忘记密码</a>
+				</div>
+			</li>
+		</ol>
+	</div>
+</form>

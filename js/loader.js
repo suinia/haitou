@@ -36,7 +36,7 @@ var haitou={
             +   "     </div>"
             +   "</div>"
             +	"<div class='form-group'>"
-            +   "   <button class='btn btn-success btn-lg btn-block' type='button'> 登 录</button>"
+            +   "   <button class='btn btn-success btn-lg btn-block' type='button'> 注 册</button>"
             +   "</div>"
             +	"<p class='clearfix'><a href='javascript:;' id='regLink' class='pull-left'>没有帐号？去注册</a><a href='javascript:;' class='pull-right'>忘记密码？</a></p>"
             +	"</div>"
