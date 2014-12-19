@@ -20,8 +20,7 @@
         // no AMD; invoke directly
         factory( (typeof(jQuery) != 'undefined') ? jQuery : window.Zepto );
     }
-}
-
+} 
 (function($) {
 "use strict";
 
@@ -90,6 +89,22 @@ $.fn.attr2 = function() {
  * ajaxSubmit() provides a mechanism for immediately submitting
  * an HTML form using AJAX.
  */
+$.fn.par2Json=function(string, overwrite){ 
+	var obj = {}, 
+	pairs = string.split('&'), 
+	d = decodeURIComponent, 
+	name, 
+	value; 
+	$.each(pairs, function(i,pair) { 
+	pair = pair.split('='); 
+	name = d(pair[0]); 
+	value = d(pair[1]); 
+	obj[name] = overwrite || !obj[name] ? value : 
+	[].concat(obj[name]).concat(value); 
+	}); 
+	return obj; 
+};
+
 $.fn.ajaxSubmit = function(options) {
     /*jshint scripturl:true */
 
@@ -164,11 +179,11 @@ $.fn.ajaxSubmit = function(options) {
         log('ajaxSubmit: submit vetoed via form-submit-validate trigger');
         return this;
     }
-
     var q = $.param(a, traditional);
     if (qx) {
         q = ( q ? (q + '&' + qx) : qx );
     }
+    q = JSON.stringify(this.par2Json(q));
     if (options.type.toUpperCase() == 'GET') {
         options.url += (options.url.indexOf('?') >= 0 ? '&' : '?') + q;
         options.data = null;  // data is null for 'get'

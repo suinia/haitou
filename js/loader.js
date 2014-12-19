@@ -1,4 +1,4 @@
-var HAITOU_API_URL="";
+var HAITOU_API_URL="http://haitoubang.sinaapp.com";
 var HAITOU_ERR_MSG={
 	signup:{
 		1:"邮箱已被注册",
@@ -35,12 +35,12 @@ var haitou={
 	signHtml:	"<div class='haitoubang haitou-login-box signin'><h3>登录</h3>"
 			+	"<form id='signin_form' action='/api/accounts/signin' method='post'><div class='form-group'><div class='input-group'>"
             +   "	<span class='input-group-addon'><i class='fa fa-user'></i></span>"
-            +   "    <input class='form-control' type='text' placeholder='输入邮箱' pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$' name='login_name' required=''>"
+            +   "    <input class='form-control' type='text' placeholder='输入邮箱' pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$' name='email' required=''>"
             +   "</div></div>"
             +	"<div class='form-group'>"
             +   "     <div class='input-group'>"
             +   "         <span class='input-group-addon fs_17'><i class='fa fa-lock'></i></span>"
-            +   "         <input class='form-control' type='password' placeholder='输入密码（6-16位）' name='login_password' required pattern='^[0-9a-zA-Z]{6,10}$'>"
+            +   "         <input class='form-control' type='password' placeholder='输入密码（6-16位）' name='passwd' required pattern='^[0-9a-zA-Z]{6,10}$'>"
             +   "     </div>"
             +   "</div>"
             +	"<div class='form-group'>"
@@ -51,12 +51,12 @@ var haitou={
     		+	"<div class='haitoubang haitou-login-box register'><h3>注册</h3>"
 			+	"<form id='reg_form' action='/api/accounts/signup' method='post'><div class='form-group'><div class='input-group'>"
             +   "	<span class='input-group-addon'><i class='fa fa-user'></i></span>"
-            +   "    <input class='form-control' type='text' placeholder='输入邮箱' name='login_name' pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$' required=''>"
+            +   "    <input class='form-control' type='text' placeholder='输入邮箱' name='email' pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$' required=''>"
             +   "</div></div>"
             +	"<div class='form-group'>"
             +   "     <div class='input-group'>"
             +   "         <span class='input-group-addon fs_17'><i class='fa fa-lock'></i></span>"
-            +   "         <input class='form-control' type='password' placeholder='输入密码（6-16位）' name='login_password' required pattern='^[0-9a-zA-Z]{6,10}$'>"
+            +   "         <input class='form-control' type='password' placeholder='输入密码（6-16位）' name='passwd' required pattern='^[0-9a-zA-Z]{6,10}$'>"
             +   "     </div>"
             +   "</div>"
             +	"<div class='form-group'>"
@@ -78,15 +78,47 @@ $("#sendBtn").click(function(){
 		$(".haitou-login-box.register").show();
 	});
 	$('#signin_form').ajaxForm({
-		success:function(data){console.dir(data);},
-		url: 'http://haitoubang.sinaapp.com/api/accounts/signin',
+		success:signinCallback,
+		url: HAITOU_API_URL+'/api/accounts/signin',
 		clearForm: true,
     	resetForm: true 
 	});
 	$('#reg_form').ajaxForm({
-		success:function(data){console.dir(data);},
-		url: 'http://haitoubang.sinaapp.com/api/accounts/signup',
+		success:signupCallback,
+		url: HAITOU_API_URL+'/api/accounts/signup',
 		clearForm: true,
     	resetForm: true 
 	});
 });
+function signupCallback(data){
+	var para={"offset":0,"limit":10}
+	if(data.res_code === 0){
+		$.ajax({
+			type:"POST",
+			url:HAITOU_API_URL+"/api/apply/send",
+			data:JSON.stringify(para)
+		}).success(function(data){
+			console.dir(data);
+		});
+	}
+}
+function signinCallback(res){
+	var res=JSON.parse(res);
+	var para={
+"url": "http://www.yingjiesheng.com/job-001-969-615.html",
+"job_title": "[广州]广州证券战略管理部招聘实习生",
+"mail_addr": "suini_a@163.com",
+"mail_subject": "浙江大学张小算申请广州证券战略管理部实习生",
+"mail_body": "尊敬的HR经理：\n您好！\n我是...",
+"file_name": "浙江大学张小算中文简历.pdf"
+};
+	if(res.res_code === 0){
+		$.ajax({
+			type:"POST",
+			url:HAITOU_API_URL+"/api/apply/send",
+			data:JSON.stringify(para)
+		}).success(function(data){
+			console.dir(data);
+		});
+	}
+}
