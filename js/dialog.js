@@ -38,11 +38,11 @@ Dialog.prototype.create=function(){
     this.dialogContent=this.content;
     this.$wrapdiv.append(this.dialogContentWrap);
     $(this.dialogContentWrap).append(this.dialogContent);
-    this.$wrapdiv.appendTo(this.opts.target);
+    this.$wrapdiv.appendTo($("#haitou-GZSBUCK"));
     this._setSize(this.opts.width,this.opts.height);
 }
 Dialog.prototype._createMask=function(){
-    this.$dialogMask=$("<div class='haitou-dialogMask'></div>").appendTo(this.opts.target);
+    this.$dialogMask=$("<div class='haitou-dialogMask'></div>").appendTo($("#haitou-GZSBUCK"));
     var targetHeight;
     if(this.opts.target=='body'){
         targetHeight = Math.max($(window).height(),$(document).height())

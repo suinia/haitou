@@ -406,6 +406,97 @@
   margin-bottom: 10px;
   color: #737373;
 }
+
+.haitoubang .has-success .help-block,
+.haitoubang .has-success .control-label,
+.haitoubang .has-success .radio,
+.haitoubang .has-success .checkbox,
+.haitoubang .has-success .radio-inline,
+.haitoubang .has-success .checkbox-inline,
+.haitoubang .has-success.radio label,
+.haitoubang .has-success.checkbox label,
+.haitoubang .has-success.radio-inline label,
+.haitoubang .has-success.checkbox-inline label {
+	color: #3c763d
+}
+.haitoubang .has-success .form-control {
+	border-color: #3c763d;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075)
+}
+.haitoubang .has-success .form-control:focus {
+	border-color: #2b542c;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #67b168;
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #67b168
+}
+.haitoubang .has-success .input-group-addon {
+	color: #3c763d;
+	background-color: #dff0d8;
+	border-color: #3c763d
+}
+.haitoubang .has-success .form-control-feedback {
+	color: #3c763d
+}
+.haitoubang .has-warning .help-block,
+.haitoubang .has-warning .control-label,
+.haitoubang .has-warning .radio,
+.haitoubang .has-warning .checkbox,
+.haitoubang .has-warning .radio-inline,
+.haitoubang .has-warning .checkbox-inline,
+.haitoubang .has-warning.radio label,
+.haitoubang .has-warning.checkbox label,
+.haitoubang .has-warning.radio-inline label,
+.haitoubang .has-warning.checkbox-inline label {
+	color: #8a6d3b
+}
+.haitoubang .has-warning .form-control {
+	border-color: #8a6d3b;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075)
+}
+.haitoubang .has-warning .form-control:focus {
+	border-color: #66512c;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #c0a16b;
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #c0a16b
+}
+.haitoubang .has-warning .input-group-addon {
+	color: #8a6d3b;
+	background-color: #fcf8e3;
+	border-color: #8a6d3b
+}
+.has-warning .form-control-feedback {
+	color: #8a6d3b
+}
+.haitoubang .has-error .help-block,
+.haitoubang .has-error .control-label,
+.haitoubang .has-error .radio,
+.haitoubang .has-error .checkbox,
+.haitoubang .has-error .radio-inline,
+.haitoubang .has-error .checkbox-inline,
+.haitoubang .has-error.radio label,
+.haitoubang .has-error.checkbox label,
+.haitoubang .has-error.radio-inline label,
+.haitoubang .has-error.checkbox-inline label {
+	color: #a94442
+}
+.haitoubang .has-error .form-control {
+	border-color: #a94442;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075)
+}
+.haitoubang .has-error .form-control:focus {
+	border-color: #843534;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #ce8483;
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #ce8483
+}
+.haitoubang .has-error .input-group-addon {
+	color: #a94442;
+	background-color: #f2dede;
+	border-color: #a94442
+}
+.haitoubang .has-error .form-control-feedback {
+	color: #a94442
+}
 .haitoubang .form-horizontal .radio,
 .haitoubang .form-horizontal .checkbox,
 .haitoubang .form-horizontal .radio-inline,
@@ -1187,6 +1278,9 @@
 .haitoubang .text-capitalize {
   text-transform: capitalize;
 }
+.haitoubang .text-danger {
+	color: #a94442
+}
 .haitou-dialogMask {
 	display: none;
 	position: absolute;
@@ -1221,6 +1315,7 @@
 }
 .haitou-dialog a{
 	color: #666;
+	text-decoration: underline;
 }
 .haitou-dialog a:hover{
 	color: #d14836;
@@ -1230,7 +1325,7 @@
 	padding: 0 0 10px 0;
 	margin: 0 0 30px 0;
 	border-bottom: 1px solid #ddd;
-	color: #666;
+	color: #d14836;
 	font-style: normal;
 }
 #haitou-GZSBUCK{
@@ -1238,6 +1333,10 @@
      -moz-box-sizing: border-box;
           box-sizing: border-box;
       font:14px/1.5 "Microsoft YaHei","微软雅黑",Arial,Helvetica,Verdana,Simsun,"宋体";
+}
+.haitou-placeholder{
+	height: 60px;
+	width: 100%;
 }
 .haitou-sendtool{
 	background-color: #f9f9f7;
@@ -1247,6 +1346,7 @@
 	border-top-left-radius: 5px;
 	border-top-right-radius: 5px;
 	bottom: 0;
+	left:0;
 	box-shadow: -1px -2px 8px rgba(0, 0, 0, 0.2);
 	height: 60px;
 	position: fixed;
@@ -1262,11 +1362,94 @@
 	margin: 0 auto;
 	color: #fff;
 }
+/*上传文件*/
+.haitoubang .uploadText {
+	cursor: pointer
+}
+.haitoubang .uploadText,
+.haitoubang .uploadWidget {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0
+}
+.haitoubang .uploadWidget {
+	z-index: 1
+}
+.haitoubang .uploadFile {
+	opacity: 0;
+	cursor: pointer;
+	position: absolute;
+	right: -10px;
+	top: -10px;
+	font-size: 200px
+}
+.haitoubang .uploadProgress {
+	display: none;
+	position: relative;
+	width: 100%;
+	height: 100%;
+	z-index: 2
+}
+.haitoubang .uploadProgress .preview {
+	width: 100%;
+	height: 100%;
+	background: #eee;
+	position: absolute;
+	left: 0;
+	top: 0;
+	display: none
+}
+.haitoubang .uploadCloseBtn {
+	background: rgba(0, 0, 0, .25);
+	color: #fff;
+	font-size: 16px;
+	cursor: pointer;
+	position: absolute;
+	width: 16px;
+	height: 16px;
+	line-height: 16px;
+	overflow: hidden;
+	right: 15px;
+	top: 3px;
+	z-index: 3;
+	text-align: center;
+	opacity: .6;
+	border-radius: 16px
+}
+.haitoubang .uploadProgress .text {
+	background: #fff
+}
+.haitoubang .haitou-upload{
+	position: relative;
+	overflow: hidden;
+	padding-right: 10px;
+}
 /*登录注册*/
 .haitoubang.haitou-login-box .form-group{
 	margin-bottom: 25px;
 }
-.haitou-login-box{
-	padding: 20px 10px;
+.haitou-login-box,
+.haitou-send-box{
+	padding: 15px 10px;
 	width: 350px;
+}
+.haitou-login-box .text-danger{
+	margin:  -15px 0 5px 0;
+}
+.haitou-send-box{
+	width: 400px;
+}
+.haitou-send-box h3{
+	margin-bottom: 20px;
+}
+.haitou-send-box p{
+	margin-bottom: 5px;
+}
+.haitou-send-box .form-control{
+	margin-bottom: 15px;
+}
+.haitou-send-box textarea.form-control{
+	height: 120px;
 }
