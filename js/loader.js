@@ -1,3 +1,8 @@
+//chrome.extension.sendRequest('get-cookie', {
+//		url: 'http://haitoubang.sinaapp.com', 
+//	name: 'user_id' }, function( cookie ){ 
+//  	alert( cookie ); 
+//});
 function Haitoubang(){
 	this.HAITOU_API_URL="http://haitoubang.sinaapp.com";
 	this.HAITOU_ERR_MSG={
@@ -23,6 +28,7 @@ function Haitoubang(){
 			245:"参数缺失"
 		}
 	}
+	this.isLogin = false;
 }
 Haitoubang.prototype.validateEmail=function(email){
 	if (email.length == 0) return false;
@@ -33,12 +39,15 @@ Haitoubang.prototype.isCheckUrl=function(email){
 	return true;
 }
 Haitoubang.prototype.init=function(){
+	var _this=this;
 	if(this.isCheckUrl()){
 	    var $BtnWrap=$("<div id='haitou-GZSBUCK' class='haitoubang'></div>").appendTo("body");
 	    var btnHtml="<div class='haitou-placeholder'></div><div class='haitou-sendtool text-center'><a class='btn btn-primary btn-lg' id='sendBtn'> 投 简 历 </div></div>";
 	    $BtnWrap.append(btnHtml);
 	}
-	this.bindEvent();
+	this.getLoginStatus(function(){
+		_this.bindEvent();
+	});
 }
 Haitoubang.prototype.htmlTpl={
 	accountHtml:	"<div class='haitoubang haitou-login-box register'><h3>注册</h3>"
@@ -80,11 +89,42 @@ Haitoubang.prototype.htmlTpl={
             +	"<p class='clearfix'><a href='javascript:;' class='pull-left signin-link'>返回登录</a><button class='btn btn-success pull-right' type='button'> 重置密码 </button></p>"
             +	"</div>"
 }
-Haitoubang.prototype.isLogin=function(){
-	return true;
+Haitoubang.prototype.getLoginStatus=function(callback){
+	var _this=this;
+	chrome.extension.sendRequest('get-cookie', function( cookie ){ 
+	    	if(cookie && cookie !=""){
+				_this.isLogin = true;
+				callback();
+				return 
+	   	 	}else{
+	   	 		var haitou_user = window.localStorage.getItem('haitou-user')||"";
+	   	 		if(haitou_user && haitou_user!=""){
+	   	 			haitou_user = JSON.parse(haitou_user)
+	   	 			var post_data={
+	   	 				email:haitou_user.email,
+	   	 				password:haitou_user.password,
+	   	 			}
+	   	 			$.ajax({
+						type:"post",
+						url:_this.HAITOU_API_URL+'/api/accounts/signin',
+						async:true,
+						data:JSON.stringify(post_data)
+					}).success(function(res){
+						var res=JSON.parse(res);
+						if(res && res.res_code===0){
+							_this.isLogin = true;
+						}
+					}).complete(function(){callback();})
+	   	 		}else{
+					callback();
+					return 
+	   	 		}
+	   	 	}
+	});
 }
 Haitoubang.prototype.getEmailAddr=function(){
-	return ["530561526@qq.com","suini_a@163.com"];
+	var text=$("body").html(),reg=/[\w\.\+-]+@[\w\.\+-]+/g;
+	return text.match(reg);
 }
 Haitoubang.prototype.sendHtml=function(){
 	var _this=this, html="",email=this.getEmailAddr(),optionHtml="";
@@ -127,7 +167,7 @@ Haitoubang.prototype.sendHtml=function(){
 Haitoubang.prototype.bindEvent=function(){
 	var _this=this;
 	$("#sendBtn").click(function(){
-		if(_this.isLogin()){
+		if(_this.isLogin){
 			_this.dialog=new Dialog({
 				width:400,
 				content:"<div id='send-resume' style='line-height: 150px;text-align: center'>加载中。。。</div>"

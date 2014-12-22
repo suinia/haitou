@@ -15,5 +15,12 @@
 			"run_at":"document_end"
 		}
 	],
-	"web_accessible_resources": [ "css/*", "js/*" ]
+	"web_accessible_resources": [ "css/*", "js/*" ],
+	"permissions": [
+		"cookies",
+		"http://haitoubang.sinaapp.com/*", "https://haitoubang.sinaapp.com/*"
+  	],
+  	"background": {
+      "page": "background.html"
+   }
 }
