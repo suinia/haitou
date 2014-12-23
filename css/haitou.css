@@ -1426,6 +1426,23 @@
 	overflow: hidden;
 	padding-right: 10px;
 }
+.haitou-background{
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	z-index: 1040;
+	background-color: #000
+}
+.haitou-background.fade {
+	filter: alpha(opacity=0);
+	opacity: 0
+}
+.haitou-background.in {
+	filter: alpha(opacity=50);
+	opacity: .5
+}
 /*登录注册*/
 .haitoubang.haitou-login-box .form-group{
 	margin-bottom: 25px;

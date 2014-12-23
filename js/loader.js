@@ -1,8 +1,3 @@
-//chrome.extension.sendRequest('get-cookie', {
-//		url: 'http://haitoubang.sinaapp.com', 
-//	name: 'user_id' }, function( cookie ){ 
-//  	alert( cookie ); 
-//});
 function Haitoubang(){
 	this.HAITOU_API_URL="http://haitoubang.sinaapp.com";
 	this.HAITOU_ERR_MSG={
@@ -40,14 +35,16 @@ Haitoubang.prototype.isCheckUrl=function(email){
 }
 Haitoubang.prototype.init=function(){
 	var _this=this;
-	if(this.isCheckUrl()){
-	    var $BtnWrap=$("<div id='haitou-GZSBUCK' class='haitoubang'></div>").appendTo("body");
-	    var btnHtml="<div class='haitou-placeholder'></div><div class='haitou-sendtool text-center'><a class='btn btn-primary btn-lg' id='sendBtn'> 投 简 历 </div></div>";
-	    $BtnWrap.append(btnHtml);
+	if(this.getEmailAddr() && this.getEmailAddr().length>0){
+		if(this.isCheckUrl()){
+		    var $BtnWrap=$("<div id='haitou-GZSBUCK' class='haitoubang'></div>").appendTo("body");
+		    var btnHtml="<div class='haitou-placeholder'></div><div class='haitou-sendtool text-center'><a class='btn btn-primary btn-lg' id='sendBtn'> 投 简 历 </div></div>";
+		    $BtnWrap.append(btnHtml);
+		}
+		this.getLoginStatus(function(){
+			_this.bindEvent();
+		});
 	}
-	this.getLoginStatus(function(){
-		_this.bindEvent();
-	});
 }
 Haitoubang.prototype.htmlTpl={
 	accountHtml:	"<div class='haitoubang haitou-login-box register'><h3>注册</h3>"
@@ -150,7 +147,7 @@ Haitoubang.prototype.sendHtml=function(){
 				+	"<p>正文：</p>"
 				+	"<textarea name='mail_body' class='form-control'>"+res.msg.mail_body+"</textarea >"
 				+	"<div style='margin:-5px 0 10px 0' class='clearfix'><span class='pull-left'>附件简历：</span>"+fileHtml+"</div>"
-				+	"<button class='btn btn-success btn-lg btn-block' type='button'> 投 递 </button>"
+				+	"<p class='text-danger hide'></p><button class='btn btn-success btn-lg btn-block' type='button'> 投 递 </button>"
 				+"</div>";
 			$("#haitou-GZSBUCK #send-resume").removeAttr("style").html(html);
 			_this.dialog._position(window,400);
@@ -265,16 +262,27 @@ Haitoubang.prototype.bindEvent=function(){
 			mail_subject:$parentObj.find("input[name='mail_subject']").val(),
 			mail_body:$parentObj.find("textarea[name='mail_body']").val()
 		}
+		if(!mail_addr){return alert("邮箱不能为空！");}
+		if(!mail_subject){return alert("邮件标题不能为空！");}
+		if(!mail_body){return alert("正文不能为空！");}
 		$.ajax({
 			type:"post",
 			url: _this.HAITOU_API_URL+"/api/apply/send",
 			async:true,
 			data:JSON.stringify(post_data),
-			success:function(res){successCallback.call(_this,res)},
+			success:function(res){_this.sendCallback(res))},
 			error:function(){alert(errorMsg)}
 		});
 		return false;
 	});
+}
+Haitoubang.prototype.sendCallback=function(res){
+	if(res && res.res_code === 0){
+		$obj.find("#send-resume").html("<p class='text-danger'>投递成功!</p>")
+		$obj.find("button").hide();
+	}else{
+		$obj.find(".text-danger").html(_this.HAITOU_ERR_MSG.forgot[res.res_code]||"投递失败，请重试！")
+	}
 }
 Haitoubang.prototype.forgotCallback=function(res){
 	var  _this=this,res=JSON.parse(res),$obj=$(".haitou-login-box.forgot");
