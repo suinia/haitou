@@ -25,26 +25,47 @@ function Haitoubang(){
 	}
 	this.isLogin = false;
 }
+Haitoubang.prototype.get = function(key) {
+    return localStorage[key];
+}
+Haitoubang.prototype.set = function(key, val) {
+    localStorage[key] = val;
+}
+Haitoubang.prototype.parseConfigXML = function(doc) {
+    if (!doc) return;
+    var m = doc.getElementsByTagName("matched")[0];
+    var mre = m.lastChild.nodeValue;
+    if (mre) this.set('haitou_mre_txt', mre);
+}
 Haitoubang.prototype.validateEmail=function(email){
 	if (email.length == 0) return false;
     var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i;
     return re.test(email);
 }
 Haitoubang.prototype.isCheckUrl=function(email){
-	return true;
+	var _this=this,xhr = new XMLHttpRequest();
+	$.ajax({
+		type:"get",
+		url:chrome.extension.getURL("/js/config.xml"),
+		dataType:"xml"
+	}).success(function(data){
+		_this.parseConfigXML(data);
+        mre = new RegExp(_this.get('haitou_mre_txt'), 'i');
+	});
 }
 Haitoubang.prototype.init=function(){
-	var _this=this;
-	if(this.getEmailAddr() && this.getEmailAddr().length>0){
-		if(this.isCheckUrl()){
-		    var $BtnWrap=$("<div id='haitou-GZSBUCK' class='haitoubang'></div>").appendTo("body");
-		    var btnHtml="<div class='haitou-placeholder'></div><div class='haitou-sendtool text-center'><a class='btn btn-primary btn-lg' id='sendBtn'> 投 简 历 </div></div>";
-		    $BtnWrap.append(btnHtml);
-		}
-		this.getLoginStatus(function(){
-			_this.bindEvent();
-		});
-	}
+	this.isCheckUrl()
+//	var _this=this;
+//	if(this.getEmailAddr() && this.getEmailAddr().length>0){
+//		if(this.isCheckUrl()){
+////		    var $BtnWrap=$("<div id='haitou-GZSBUCK' class='haitoubang'></div>").appendTo("body");
+////		    var btnHtml="<div class='haitou-placeholder'></div><div class='haitou-sendtool text-center'><a class='btn btn-primary btn-lg' id='sendBtn'> 投 简 历 </div></div>";
+////		    $BtnWrap.append(btnHtml);
+////			this.getLoginStatus(function(){
+////				_this.bindEvent();
+////			});
+//		}
+//	}
 }
 Haitoubang.prototype.htmlTpl={
 	accountHtml:	"<div class='haitoubang haitou-login-box register'><h3>注册</h3>"
@@ -270,7 +291,7 @@ Haitoubang.prototype.bindEvent=function(){
 			url: _this.HAITOU_API_URL+"/api/apply/send",
 			async:true,
 			data:JSON.stringify(post_data),
-			success:function(res){_this.sendCallback(res))},
+			success:function(res){_this.sendCallback(res)},
 			error:function(){alert(errorMsg)}
 		});
 		return false;
@@ -294,36 +315,20 @@ Haitoubang.prototype.forgotCallback=function(res){
 	}
 }
 Haitoubang.prototype.signupCallback=function(res){
-	var _this=this,res=JSON.parse(res);
-	var post_data={
-		"offset":"1",
-		"limit":"10"
-	}
-	if(res && res.res_code === 0){
-		$.ajax({
-			type:"POST",
-			url:_this.HAITOU_API_URL+"/api/apply/list",
-			data:JSON.stringify(post_data)
-		}).success(function(data){
-			console.dir(data);
-		});
-	}
+	_this.dialog.close();
+	_this.dialog=new Dialog({
+		width:400,
+		content:"<div id='send-resume' style='line-height: 150px;text-align: center'>加载中。。。</div>"
+	});
+	_this.sendHtml();
 }
 Haitoubang.prototype.signinCallback=function(res){
-	var  _this=this,res=JSON.parse(res);
-	var post_data={
-		"offset":"1",
-		"limit":"10"
-	}
-	if(res && res.res_code === 0){
-		$.ajax({
-			type:"POST",
-			url:_this.HAITOU_API_URL+"/api/apply/list",
-			data:JSON.stringify(post_data)
-		}).success(function(data){
-			console.dir(data);
-		});
-	}
+	_this.dialog.close();
+	_this.dialog=new Dialog({
+		width:400,
+		content:"<div id='send-resume' style='line-height: 150px;text-align: center'>加载中。。。</div>"
+	});
+	_this.sendHtml();
 }
 var haitoubang=new Haitoubang;
 haitoubang.init();
