@@ -1,0 +1,115 @@
+/**====================Reset Css=======================**/
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6,form, button, input, textarea, p,th, td {
+    margin: 0;
+    padding: 0;
+}
+body{
+    color:#474747;
+    background: #efeeeb;
+}
+body,button,input,select,textarea,table{
+    font: 12px/18px Arial, Helvetica, sans-serif;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-size: 100%;
+    font-weight: normal;
+}
+p,ul,ol,li{
+    list-style:none;
+    text-align: left;
+}
+input, img {
+    vertical-align: middle;
+}
+/** == ClearFix == **/
+.clearfix:after {
+    content: "\0020";
+    display: block;
+    height: 0;
+    visibility: hidden;
+    clear:both;
+}
+.clearfix {
+    zoom: 1;
+}
+.clear{
+    clear:both;
+}
+.clearFloatNoHeight{
+    clear: both;
+    line-height: 0;
+    height: 0;
+    display: block;
+    overflow: hidden;
+    width: 0;
+    font-size:0;
+}
+/**====================Base Css=======================**/
+a{
+    color:#474747;
+}
+img{
+    border: 0;
+}
+a,input,textarea,img  {
+    outline:none;
+}
+a:link, a:visited, a:focus {
+    outline: medium none;
+    text-decoration: none;
+}
+a:hover{
+    text-decoration: underline;
+}
+:focus{
+    -moz-outline-style: none;
+    text-decoration: none;
+    outline: none;
+}
+.left{
+    float: left;
+}
+.right{
+    float: right;
+}
+.displayNone{
+    display: none;
+}
+.vMiddle{
+    vertical-align: middle;
+}
+.divider{
+    border-bottom: 1px solid #fff;
+    border-top: 1px solid #c8c4b4;
+}
+/**====================Font style=======================**/
+.bold{
+    font-weight: bold;
+}
+.textCenter{
+    text-align: center;
+}
+.fontYaHei{
+    font-family:  "Microsoft YaHei","微软雅黑";
+}
+/*=======Css Style For Popup==============*/
+body{
+	width: 390px;
+}
+header{
+	padding: 5px 5px 5px 10px;
+  	background-color: #f6f7f9;
+  	border-bottom: 1px solid #e8991f;
+}
+header .logo{
+	background:url(../images/icon-32.png) no-repeat;
+	width: 32px;
+	height: 32px;
+	display: inline-block;
+}
+header .slogan{
+	padding: 3px 0 3px 10px;
+	border-left: 1px solid #ccc;
+	margin: 5px 0 0 10px;
+	float: left;
+}
