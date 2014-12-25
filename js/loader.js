@@ -285,7 +285,7 @@ Haitoubang.prototype.bindEvent=function(){
 		$parentObj.find(".text-danger").addClass("hide");
 		var post_data={
 			url:location.href,
-			job_title:document.title,
+			job_title:document.title||location.href,
 //			mail_addr:$parentObj.find("select").val(),
 			mail_addr:'530561526@qq.com',
 			mail_subject:$parentObj.find("input[name='mail_subject']").val(),
