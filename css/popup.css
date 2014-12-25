@@ -92,6 +92,12 @@ a:hover{
 .fontYaHei{
     font-family:  "Microsoft YaHei","微软雅黑";
 }
+.text-danger {
+	color: #e4564f;
+}
+.text-success{
+	color:#3c763d;
+}
 /*=======Css Style For Popup==============*/
 body{
 	width: 390px;

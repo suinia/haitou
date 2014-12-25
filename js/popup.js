@@ -43,9 +43,31 @@ function getApplyList(){
 		getsiteList();
 	});
 }
-function renderApplyList(){
-	
+function status_text(s){
+	switch(s){
+		case 0:
+			return "<span class='right text-success'>发送中</span>";
+			break;
+		case 1:
+			return "<span class='right text-danger'>发送失败</span>";
+			break;
+		case 2:
+			return "<span class='right text-success'>发送成功</span>";
+			break;
+		case 3:
+			return "<span class='right text-success'>邮件已读</span>";
+			break;
+		case 4:
+			return "<span class='right text-success'>邮件已回复</span>";
+			break;
+	}
+}
+function renderApplyList(list){
+	var html='';
+	for(var i=0;i<list.length;i++){
+		html+="<li><span class='left'>"+list.job_title+"<span>"+status_text(list.status)+"<li>"
+	}
 }
 function getsiteList(){
-	alert(2)
+//	alert(2)
 }

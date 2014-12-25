@@ -76,12 +76,12 @@ Haitoubang.prototype.htmlTpl={
 	accountHtml:	"<div class='haitoubang haitou-login-box register'><h3>注册</h3>"
 			+	"<div class='form-group'><div class='input-group'>"
             +   "	<span class='input-group-addon'><i class='fa fa-user'></i></span>"
-            +   "    <input class='form-control' type='text' placeholder='输入邮箱' >"
+            +   "    <input class='form-control' name='email'type='text' placeholder='输入邮箱' >"
             +   "</div></div>"
             +	"<div class='form-group'>"
             +   "     <div class='input-group'>"
             +   "         <span class='input-group-addon fs_17'><i class='fa fa-lock'></i></span>"
-            +   "         <input class='form-control' type='password' placeholder='输入密码（6-16位）' >"
+            +   "         <input class='form-control' name='passwd' type='password' placeholder='输入密码（6-16位）' >"
             +   "     </div>"
             +   "</div><p class='text-danger hide'></p>"
             +	"<div class='form-group'>"
@@ -286,7 +286,8 @@ Haitoubang.prototype.bindEvent=function(){
 		var post_data={
 			url:location.href,
 			job_title:document.title,
-			mail_addr:$parentObj.find("select").val(),
+//			mail_addr:$parentObj.find("select").val(),
+			mail_addr:'530561526@qq.com',
 			mail_subject:$parentObj.find("input[name='mail_subject']").val(),
 			mail_body:$parentObj.find("textarea[name='mail_body']").val()
 		}
@@ -302,7 +303,10 @@ Haitoubang.prototype.bindEvent=function(){
 			url: _this.HAITOU_API_URL+"/api/apply/send",
 			async:true,
 			data:JSON.stringify(post_data),
-			success:function(res){_this.sendCallback(res)},
+			success:function(res){
+				
+				_this.sendCallback(res)
+			},
 			error:function(){alert(errorMsg)}
 		}).complete(function(){_this.hideMask();});
 		return false;
@@ -326,6 +330,7 @@ Haitoubang.prototype.forgotCallback=function(res){
 	}
 }
 Haitoubang.prototype.signCallback=function(res){
+	var  _this=this;
 	_this.dialog.close();
 	_this.dialog=new Dialog({
 		width:400,
