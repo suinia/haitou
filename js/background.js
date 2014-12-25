@@ -1,9 +1,10 @@
+var HAITOU_URL="http://haitoubang.sinaapp.com";
 (function(){
 	var haitou_bg={};
 	chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 		if (request == "get-cookie"){
 			chrome.cookies.get( {
-			url: 'http://haitoubang.sinaapp.com', 
+			url: HAITOU_URL, 
 			name: 'user_id' }, 
 			  	function( cookie ){
 			  		sendResponse(cookie)
@@ -51,4 +52,5 @@ function get(key) {
 function set(key, val) {
     localStorage[key] = val;
 }
+
 
