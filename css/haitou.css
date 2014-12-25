@@ -1279,7 +1279,10 @@
   text-transform: capitalize;
 }
 .haitoubang .text-danger {
-	color: #a94442
+	color: #e4564f;
+}
+.haitoubang .text-success{
+	color:#3c763d;
 }
 .haitou-dialogMask {
 	display: none;
@@ -1294,6 +1297,9 @@
 	z-index: 199;
 	height: 0;
 	overflow: hidden;
+}
+.haitou-dialogContent{
+	position: relative;
 }
 .haitou-dialog{
 	background: #fff;
@@ -1427,13 +1433,13 @@
 	padding-right: 10px;
 }
 .haitou-background{
-	position: fixed;
+	position: absolute;
 	top: 0;
 	right: 0;
 	bottom: 0;
 	left: 0;
-	z-index: 1040;
-	background-color: #000
+	z-index: 2;
+	background-color: #fff
 }
 .haitou-background.fade {
 	filter: alpha(opacity=0);
@@ -1442,6 +1448,13 @@
 .haitou-background.in {
 	filter: alpha(opacity=50);
 	opacity: .5
+}
+.haitou-background .fa{
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin: -12px 0 0 -14px;
+	color: #93cbf9 !important;
 }
 /*登录注册*/
 .haitoubang.haitou-login-box .form-group{
@@ -1463,6 +1476,9 @@
 }
 .haitou-send-box p{
 	margin-bottom: 5px;
+}
+.haitou-send-box p.text-danger{
+	margin: -5px 0 5px 0;
 }
 .haitou-send-box .form-control{
 	margin-bottom: 15px;

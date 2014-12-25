@@ -21,9 +21,21 @@ function Haitoubang(){
 			2:"密钥不存在",
 			3:"密钥已过期",
 			245:"参数缺失"
+		},
+		send:{
+			1:"未上传简历",
+			2:"邮件发送失败",
+			3:"重复申请",
+			254:"参数缺失"
 		}
 	}
 	this.isLogin = false;
+}
+Haitoubang.prototype.showMask=function(){
+	$("#haitou-GZSBUCK .haitou-background").show();
+}
+Haitoubang.prototype.hideMask=function(){
+	$("#haitou-GZSBUCK .haitou-background").hide();
 }
 Haitoubang.prototype.get = function(key) {
     return localStorage[key];
@@ -42,30 +54,23 @@ Haitoubang.prototype.validateEmail=function(email){
     var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i;
     return re.test(email);
 }
-Haitoubang.prototype.isCheckUrl=function(email){
-	var _this=this,xhr = new XMLHttpRequest();
-	$.ajax({
-		type:"get",
-		url:chrome.extension.getURL("/js/config.xml"),
-		dataType:"xml"
-	}).success(function(data){
-		_this.parseConfigXML(data);
-        mre = new RegExp(_this.get('haitou_mre_txt'), 'i');
-	});
-}
 Haitoubang.prototype.init=function(){
-	this.isCheckUrl()
-//	var _this=this;
-//	if(this.getEmailAddr() && this.getEmailAddr().length>0){
-//		if(this.isCheckUrl()){
-////		    var $BtnWrap=$("<div id='haitou-GZSBUCK' class='haitoubang'></div>").appendTo("body");
-////		    var btnHtml="<div class='haitou-placeholder'></div><div class='haitou-sendtool text-center'><a class='btn btn-primary btn-lg' id='sendBtn'> 投 简 历 </div></div>";
-////		    $BtnWrap.append(btnHtml);
-////			this.getLoginStatus(function(){
-////				_this.bindEvent();
-////			});
-//		}
-//	}
+	var _this=this;
+	if(_this.getEmailAddr() && _this.getEmailAddr().length>0){
+		chrome.extension.sendRequest(
+		    {type: "show-haitou", url: location.href},
+		    function(response) {
+		        if (response.isshow) {
+				    var $BtnWrap=$("<div id='haitou-GZSBUCK' class='haitoubang'></div>").appendTo("body");
+				    var btnHtml="<div class='haitou-placeholder'></div><div class='haitou-sendtool text-center'><a class='btn btn-primary btn-lg' id='sendBtn'> 投 简 历 </div></div>";
+				    $BtnWrap.append(btnHtml);
+					_this.getLoginStatus(function(){
+						_this.bindEvent();
+					});
+				} 
+		    }
+		);
+	}
 }
 Haitoubang.prototype.htmlTpl={
 	accountHtml:	"<div class='haitoubang haitou-login-box register'><h3>注册</h3>"
@@ -170,7 +175,7 @@ Haitoubang.prototype.sendHtml=function(){
 				+	"<div style='margin:-5px 0 10px 0' class='clearfix'><span class='pull-left'>附件简历：</span>"+fileHtml+"</div>"
 				+	"<p class='text-danger hide'></p><button class='btn btn-success btn-lg btn-block' type='button'> 投 递 </button>"
 				+"</div>";
-			$("#haitou-GZSBUCK #send-resume").removeAttr("style").html(html);
+			$("#haitou-GZSBUCK #haitou-send-resume").removeAttr("style").html(html);
 			_this.dialog._position(window,400);
 			$("#haitou-GZSBUCK .haitou-upload").upload({
 				uploadUrl:_this.HAITOU_API_URL+"/api/attachment/upload",
@@ -188,7 +193,7 @@ Haitoubang.prototype.bindEvent=function(){
 		if(_this.isLogin){
 			_this.dialog=new Dialog({
 				width:400,
-				content:"<div id='send-resume' style='line-height: 150px;text-align: center'>加载中。。。</div>"
+				content:"<div id='haitou-send-resume' style='line-height: 150px;text-align: center'>加载中。。。</div>"
 			});
 			_this.sendHtml();
 		}else{
@@ -254,16 +259,17 @@ Haitoubang.prototype.bindEvent=function(){
 			}
 			if($objParent.hasClass("signin")){
 				var url='/api/accounts/signin',
-					successCallback=_this.signinCallback,
+					successCallback=_this.signCallback,
 					errorMsg="登陆失败，请重试！";
 			}
 			if($objParent.hasClass("register")){
 				var url='/api/accounts/signup',
-					successCallback=_this.signupCallback,
+					successCallback=_this.signCallback,
 					errorMsg="注册失败，请重试！";
 			}
 			post_data.passwd=$.md5(post_data.passwd)
 		}
+		_this.showMask()
 		$.ajax({
 			type:"post",
 			url: _this.HAITOU_API_URL+url,
@@ -271,11 +277,12 @@ Haitoubang.prototype.bindEvent=function(){
 			data:JSON.stringify(post_data),
 			success:function(res){successCallback.call(_this,res)},
 			error:function(){alert(errorMsg)}
-		});
+		}).complete(function(){_this.hideMask()});
 		return false;
 	});
 	$("#haitou-GZSBUCK").on("click",".haitou-send-box button",function(){
-		var $parentObj=$(this).parents(".haitou-send-box ");
+		var $parentObj=$(this).parents(".haitou-send-box "), errorMSG=[];;
+		$parentObj.find(".text-danger").addClass("hide");
 		var post_data={
 			url:location.href,
 			job_title:document.title,
@@ -283,9 +290,13 @@ Haitoubang.prototype.bindEvent=function(){
 			mail_subject:$parentObj.find("input[name='mail_subject']").val(),
 			mail_body:$parentObj.find("textarea[name='mail_body']").val()
 		}
-		if(!mail_addr){return alert("邮箱不能为空！");}
-		if(!mail_subject){return alert("邮件标题不能为空！");}
-		if(!mail_body){return alert("正文不能为空！");}
+		if(!post_data.mail_addr){errorMSG.push("邮箱不能为空！");}
+		if(!post_data.mail_subject){errorMSG.push("邮件标题不能为空！");}
+		if(!post_data.mail_body){errorMSG.push("正文不能为空！");}
+		if(errorMSG && errorMSG.length>0){
+			return $objParent.find(".text-danger").html(errorMSG[0]).removeClass("hide");
+		}
+		_this.showMask();
 		$.ajax({
 			type:"post",
 			url: _this.HAITOU_API_URL+"/api/apply/send",
@@ -293,16 +304,16 @@ Haitoubang.prototype.bindEvent=function(){
 			data:JSON.stringify(post_data),
 			success:function(res){_this.sendCallback(res)},
 			error:function(){alert(errorMsg)}
-		});
+		}).complete(function(){_this.hideMask();});
 		return false;
 	});
 }
 Haitoubang.prototype.sendCallback=function(res){
+	var _this=this,res=JSON.parse(res),$obj=$("#haitou-GZSBUCK").find("#haitou-send-resume")
 	if(res && res.res_code === 0){
-		$obj.find("#send-resume").html("<p class='text-danger'>投递成功!</p>")
-		$obj.find("button").hide();
+		$obj.html("<p><a href='"+this.HAITOU_API_URL+"/list' class='text-danger' target='_blank'>查看投递记录</a></p><p class='text-success'>投递成功!</p>");
 	}else{
-		$obj.find(".text-danger").html(_this.HAITOU_ERR_MSG.forgot[res.res_code]||"投递失败，请重试！")
+		$obj.find(".text-danger").html(_this.HAITOU_ERR_MSG.send[res.res_code]||"投递失败，请重试！").removeClass('hide');
 	}
 }
 Haitoubang.prototype.forgotCallback=function(res){
@@ -311,22 +322,14 @@ Haitoubang.prototype.forgotCallback=function(res){
 		$obj.find(".form-group").html("<p class='text-danger'>重置密码链接已发至邮箱，请查收!</p>")
 		$obj.find("button").hide();
 	}else{
-		$obj.find(".text-danger").html(_this.HAITOU_ERR_MSG.forgot[res.res_code]||"重置密码出错，请重试！")
+		$obj.find(".text-danger").html(_this.HAITOU_ERR_MSG.forgot[res.res_code]||"重置密码出错，请重试！").removeClass('hide');
 	}
 }
-Haitoubang.prototype.signupCallback=function(res){
+Haitoubang.prototype.signCallback=function(res){
 	_this.dialog.close();
 	_this.dialog=new Dialog({
 		width:400,
-		content:"<div id='send-resume' style='line-height: 150px;text-align: center'>加载中。。。</div>"
-	});
-	_this.sendHtml();
-}
-Haitoubang.prototype.signinCallback=function(res){
-	_this.dialog.close();
-	_this.dialog=new Dialog({
-		width:400,
-		content:"<div id='send-resume' style='line-height: 150px;text-align: center'>加载中。。。</div>"
+		content:"<div id='haitou-send-resume' style='line-height: 150px;text-align: center'>加载中。。。</div>"
 	});
 	_this.sendHtml();
 }
