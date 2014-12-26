@@ -71,6 +71,12 @@ Haitoubang.prototype.init=function(){
 		    }
 		);
 	}
+//var $BtnWrap=$("<div id='haitou-GZSBUCK' class='haitoubang'></div>").appendTo("body");
+//				    var btnHtml="<div class='haitou-placeholder'></div><div class='haitou-sendtool text-center'><a class='btn btn-primary btn-lg' id='sendBtn'> 投 简 历 </div></div>";
+//				    $BtnWrap.append(btnHtml);
+//					_this.getLoginStatus(function(){
+//						_this.bindEvent();
+//					});
 }
 Haitoubang.prototype.htmlTpl={
 	accountHtml:	"<div class='haitoubang haitou-login-box register'><h3>注册</h3>"
@@ -146,8 +152,9 @@ Haitoubang.prototype.getLoginStatus=function(callback){
 	});
 }
 Haitoubang.prototype.getEmailAddr=function(){
-	var text=$("body").html(),reg=/[\w\.\+-]+@[\w\.\+-]+/g;
-	return text.match(reg);
+//	var text=$("body").html(),reg=/[\w\.\+-]+@[\w\.\+-]+/g;
+//	return text.match(reg);
+	return ['530561526@qq.com']
 }
 Haitoubang.prototype.sendHtml=function(){
 	var _this=this, html="",email=this.getEmailAddr(),optionHtml="";
@@ -160,7 +167,7 @@ Haitoubang.prototype.sendHtml=function(){
 	}).success(function(res){
 		var res=res?JSON.parse(res):'';
 		if(res && res.res_code ===0){
-			var fileHtml="<div class='pull-left'><span id='resume-filename' style='padding-right:10px'></span>><div class='pull-left haitou-upload'><a href='javascript:;'>上传简历</a></div></div>";
+			var fileHtml="<div class='pull-left'><span id='resume-filename' class='pull-left' style='padding-right:10px'></span><div class='pull-left haitou-upload'><a href='javascript:;'>上传简历</a></div></div>";
 			if(res.msg.file_name){
 				fileHtml="<div class='pull-left'><span id='resume-filename' class='pull-left' style='padding-right:10px'>"+res.msg.file_name+"</span><div class='pull-left haitou-upload'><a href='javascript:;'>更换简历</a></div><a href='javascript:;' class='pull-left'>下载简历</a></div>";
 			}
@@ -177,13 +184,7 @@ Haitoubang.prototype.sendHtml=function(){
 				+"</div>";
 			$("#haitou-GZSBUCK #haitou-send-resume").removeAttr("style").html(html);
 			_this.dialog._position(window,400);
-			$("#haitou-GZSBUCK .haitou-upload").upload({
-				uploadUrl:_this.HAITOU_API_URL+"/api/attachment/upload",
-				callback:function(upload_res,$dom){
-					$("#haitou-GZSBUCK .resume-filename").html(upload_res.msg.file_name);
-					$dom.find(".uploadProgress").hide();
-				}
-			})
+			_this.upload($("#haitou-GZSBUCK .haitou-upload"))
 		}
 	});
 }
@@ -304,7 +305,6 @@ Haitoubang.prototype.bindEvent=function(){
 			async:true,
 			data:JSON.stringify(post_data),
 			success:function(res){
-				
 				_this.sendCallback(res)
 			},
 			error:function(){alert(errorMsg)}
@@ -337,6 +337,55 @@ Haitoubang.prototype.signCallback=function(res){
 		content:"<div id='haitou-send-resume' style='line-height: 150px;text-align: center'>加载中。。。</div>"
 	});
 	_this.sendHtml();
+}
+Haitoubang.prototype.upload=function($domObj,options){
+	var _this=this;
+	var defaults={
+		uploadUrl: _this.HAITOU_API_URL+"/api/attachment/upload",
+		callback:""
+	};
+	var options = $.extend(defaults, options);
+	var html = '<div class="uploadWidget"><input class="uploadFile" type="file" name="attachment" />' + '<div class="uploadProgress"><div class="text"></div><div class="preview"></div></div>' + '</div>';
+	$domObj.append(html);
+	var $progress = $domObj.find(".uploadProgress");
+    var $preview = $progress.find(".preview");
+	$domObj.off("change");
+	$domObj.on("change", ".uploadFile",
+    	function() {
+    		$preview.hide();
+	        $progress.show();
+	        var fd = new FormData();
+            fd.append("attachment", $domObj.find('input[name="attachment"]')[0].files[0]);
+            var xhr = new XMLHttpRequest();
+            xhr.upload.addEventListener("progress", uploadProgress, false);
+            xhr.addEventListener("load", uploadComplete, false);
+            xhr.addEventListener("error", uploadFailed, false);
+            xhr.addEventListener("abort", uploadCanceled, false);
+            xhr.open("POST", defaults.uploadUrl);
+            xhr.send(fd);
+   	 	}
+    );
+    var uploadProgress=function(evt){
+    	if (evt.lengthComputable) {
+            var percentComplete = Math.round(evt.loaded * 100 / evt.total);
+            $("#haitou-GZSBUCK #resume-filename").html(percentComplete.toString() + '%');
+        }
+    };
+    var uploadComplete=function(evt){
+    	var upload_res = evt.target.responseText;
+    	upload_res = typeof upload_res === 'string' ? $.parseJSON(upload_res) : upload_res;
+		$("#haitou-GZSBUCK #resume-filename").html(upload_res.msg.file_name);
+		$preview.show();
+        $progress.hide();
+    };
+    var uploadFailed=function(evt){
+    	 $preview.html("<span class='text-drang'>上传失败！</span>");
+    };
+    var uploadCanceled = function(){
+    	alert("取消上传");
+		$preview.show();
+        $progress.hide();
+    };
 }
 var haitoubang=new Haitoubang;
 haitoubang.init();
