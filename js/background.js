@@ -44,7 +44,7 @@ function parseConfigXML(doc) {
     if (!doc) return;
     var m = doc.getElementsByTagName("matched")[0];
     var mre = m.lastChild.nodeValue;
-    if (mre) set('mre_txt', mre);
+    if (mre) set('haitou_mre_txt', mre);
 }
 function get(key) {
     return localStorage[key];

@@ -21,7 +21,7 @@
 		{
 			"matches": ["http://*/*","https://*/*" ],
 			"css":["css/haitou.css"],
-			"js": ["js/jquery.js",  "js/jquery.md5.js","js/upload.js","js/dialog.js", "js/loader.js"],
+			"js": ["js/jquery.js",  "js/jquery.md5.js","js/dialog.js", "js/loader.js"],
 			"run_at":"document_end"
 		}
 	],
