@@ -28,7 +28,7 @@
 	"web_accessible_resources": [ "css/*", "js/*" ],
 	"permissions": [
 		"cookies",
-		"http://haitoubang.sinaapp.com/*", "https://haitoubang.sinaapp.com/*"
+		"http://haitoubang.sinaapp.com/*", "https://haitoubang.sinaapp.com/*","notifications" 
   	],
   	"background": {
       "page": "background.html"

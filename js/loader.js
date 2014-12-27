@@ -56,27 +56,27 @@ Haitoubang.prototype.validateEmail=function(email){
 }
 Haitoubang.prototype.init=function(){
 	var _this=this;
-//	if(_this.getEmailAddr() && _this.getEmailAddr().length>0){
-//		chrome.extension.sendRequest(
-//		    {type: "show-haitou", url: location.href},
-//		    function(response) {
-//		        if (response.isshow) {
-//				    var $BtnWrap=$("<div id='haitou-GZSBUCK' class='haitoubang'></div>").appendTo("body");
-//				    var btnHtml="<div class='haitou-placeholder'></div><div class='haitou-sendtool text-center'><a class='btn btn-primary btn-lg' id='sendBtn'> 投 简 历 </div></div>";
-//				    $BtnWrap.append(btnHtml);
-//					_this.getLoginStatus(function(){
-//						_this.bindEvent();
-//					});
-//				} 
-//		    }
-//		);
-//	}
-var $BtnWrap=$("<div id='haitou-GZSBUCK' class='haitoubang'></div>").appendTo("body");
+	if(_this.getEmailAddr() && _this.getEmailAddr().length>0){
+		chrome.extension.sendRequest(
+		    {type: "show-haitou", url: location.href},
+		    function(response) {
+		        if (response.isshow) {
+				    var $BtnWrap=$("<div id='haitou-GZSBUCK' class='haitoubang'></div>").appendTo("body");
 				    var btnHtml="<div class='haitou-placeholder'></div><div class='haitou-sendtool text-center'><a class='btn btn-primary btn-lg' id='sendBtn'> 投 简 历 </div></div>";
 				    $BtnWrap.append(btnHtml);
 					_this.getLoginStatus(function(){
 						_this.bindEvent();
 					});
+				} 
+		    }
+		);
+	}
+//var $BtnWrap=$("<div id='haitou-GZSBUCK' class='haitoubang'></div>").appendTo("body");
+//				    var btnHtml="<div class='haitou-placeholder'></div><div class='haitou-sendtool text-center'><a class='btn btn-primary btn-lg' id='sendBtn'> 投 简 历 </div></div>";
+//				    $BtnWrap.append(btnHtml);
+//					_this.getLoginStatus(function(){
+//						_this.bindEvent();
+//					});
 }
 Haitoubang.prototype.htmlTpl={
 	accountHtml:	"<div class='haitoubang haitou-login-box register'><h3>注册</h3>"

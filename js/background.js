@@ -60,5 +60,29 @@ function get(key) {
 function set(key, val) {
     localStorage[key] = val;
 }
-
-
+///api/apply/notice
+// 每隔半小时拉取查看是否有未读通知
+//alert(window.webkitNotifications)
+//alert(window.webkitNotifications.createHTMLNotification)
+if(window.webkitNotifications) {
+      showNotify();
+//    var interval = 0;
+//    var timer = setInterval(function() {
+//      interval++;
+//      if (10*1000*60 <= interval) {
+//            showNotify();
+//            interval = 0;
+//      }
+//    }, 1000);
+}
+function showNotify(){
+	alert(123);
+	var xhr = new XMLHttpRequest();
+    xhr.open('POST', HAITOU_URL+'api/apply/notice', true);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            alert(xhr.responseXML);
+        }
+    }
+    xhr.send(null);
+}
