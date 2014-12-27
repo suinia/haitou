@@ -154,7 +154,7 @@ Haitoubang.prototype.getLoginStatus=function(callback){
 Haitoubang.prototype.getEmailAddr=function(){
 //	var text=$("body").html(),reg=/[\w\.\+-]+@[\w\.\+-]+/g;
 //	return text.match(reg);
-	return ['530561526@qq.com']
+	return ['366401288@qq.com']
 }
 Haitoubang.prototype.sendHtml=function(){
 	var _this=this, html="",email=this.getEmailAddr(),optionHtml="";

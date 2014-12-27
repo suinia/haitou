@@ -75,8 +75,14 @@ a:hover{
 .displayNone{
     display: none;
 }
-.vMiddle{
-    vertical-align: middle;
+.vMiddle,
+.vHeight{
+    display:table-cell;
+    vertical-align:middle;
+    text-align:center;
+    overflow:hidden;
+    _display:inline;
+    *zoom:1;
 }
 .divider{
     border-bottom: 1px solid #fff;
@@ -101,11 +107,12 @@ a:hover{
 /*=======Css Style For Popup==============*/
 body{
 	width: 390px;
+	background: #fff;
 }
 header{
 	padding: 5px 5px 5px 10px;
   	background-color: #f6f7f9;
-  	border-bottom: 1px solid #e8991f;
+  	border-bottom: 1px solid #438eb9;
 }
 header .logo{
 	background:url(../images/icon-32.png) no-repeat;
@@ -118,4 +125,37 @@ header .slogan{
 	border-left: 1px solid #ccc;
 	margin: 5px 0 0 10px;
 	float: left;
+}
+section{
+	padding: 10px;
+	min-height: 300px;
+}
+section li{
+	font-size: 13px;
+	border-bottom: 1px solid #ccc;
+	padding: 10px 5px;
+	height: 30px;
+	overflow: hidden;
+}
+section li .left{
+	width: 280px;
+}
+section li .vMiddle{
+	text-align: left;
+}
+section li .vHeight{
+	height: 36px;
+}
+section li .right{
+	width: 80px;
+	line-height: 16px;
+	text-align: right;
+}
+section li .right i{
+	color: #999;
+	font-size: 12px;
+	font-style: normal;
+}
+section #sitelist .right a{
+	line-height: 30px;
 }

@@ -19,10 +19,13 @@ var HAITOU_URL="http://haitoubang.sinaapp.com";
                 sendResponse({isshow: false});
             }
 		}
+		if (request == "get-site"){
+			sendResponse(sarr);
+		}
 	});
 })();
 /* 读取网站列表 */
-var mre;
+var mre,sarr;
 (function updateConfig() {
     var last = get('last_update_hour');
     var now = (new Date).getDate();
@@ -34,17 +37,22 @@ var mre;
                 parseConfigXML(xhr.responseXML.documentElement);
                 set('last_update_hour', now);
                 mre = new RegExp(get('haitou_mre_txt'), 'i');
+    			sarr = get('haitou_site_txt')
             }
         }
         xhr.send(null);
     }
+    sarr = get('haitou_site_txt');
     mre = new RegExp(get('haitou_mre_txt'), 'i');
 })();
 function parseConfigXML(doc) {
     if (!doc) return;
     var m = doc.getElementsByTagName("matched")[0];
+    var s = doc.getElementsByTagName("sitelist")[0];
     var mre = m.lastChild.nodeValue;
+    var sarr = s.lastChild.nodeValue;
     if (mre) set('haitou_mre_txt', mre);
+    if (sarr) set('haitou_site_txt', sarr);
 }
 function get(key) {
     return localStorage[key];
