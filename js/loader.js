@@ -180,11 +180,18 @@ Haitoubang.prototype.sendHtml=function(){
 				+	"<p>正文：</p>"
 				+	"<textarea name='mail_body' class='form-control'>"+res.msg.mail_body+"</textarea >"
 				+	"<div style='margin:-5px 0 10px 0' class='clearfix'><span class='pull-left'>附件简历：</span>"+fileHtml+"</div>"
+				+	"<p class='hide haitou-upload-tip haitou-red-text'>请上传小于2m的简历</p>"
+				+	"<div class='haitou-upload-progress'><div class='haitou-upload-loaded'></div></div>"
 				+	"<p class='text-danger hide'></p><button class='btn btn-success btn-lg btn-block' type='button'> 投 递 </button>"
 				+"</div>";
 			$("#haitou-GZSBUCK #haitou-send-resume").removeAttr("style").html(html);
 			_this.dialog._position(window,400);
-			_this.upload($("#haitou-GZSBUCK .haitou-upload"))
+			_this.upload($("#haitou-GZSBUCK .haitou-upload"));
+			$("#haitou-GZSBUCK .haitou-upload").hover(function() {
+				$(".haitou-upload-tip").removeClass('hide');
+			}, function() {
+				$(".haitou-upload-tip").addClass('hide');
+			});
 		}
 	});
 }
@@ -341,7 +348,7 @@ Haitoubang.prototype.signCallback=function(res){
 Haitoubang.prototype.upload=function($domObj,options){
 	var _this=this;
 	var defaults={
-		uploadUrl: _this.HAITOU_API_URL+"/api/attachment/upload",
+		uploadUrl: "http://upload.qiniu.com",
 		callback:""
 	};
 	var options = $.extend(defaults, options);
@@ -352,23 +359,43 @@ Haitoubang.prototype.upload=function($domObj,options){
 	$domObj.off("change");
 	$domObj.on("change", ".uploadFile",
     	function() {
-    		$preview.hide();
-	        $progress.show();
-	        var fd = new FormData();
-            fd.append("attachment", $domObj.find('input[name="attachment"]')[0].files[0]);
-            var xhr = new XMLHttpRequest();
-            xhr.upload.addEventListener("progress", uploadProgress, false);
-            xhr.addEventListener("load", uploadComplete, false);
-            xhr.addEventListener("error", uploadFailed, false);
-            xhr.addEventListener("abort", uploadCanceled, false);
-            xhr.open("POST", defaults.uploadUrl);
-            xhr.send(fd);
+    		var _this_input=this;
+    		var arr = _this_input.value.split('\\');
+			var file_name = arr[arr.length - 1];
+			$.ajax({
+				type: "post",
+				url: _this.HAITOU_API_URL+"/api/attachment/token",
+				data:JSON.stringify({"file_name":file_name})
+			}).success(function(res_token) {
+				res_token = typeof res_token === 'string' ? $.parseJSON(res_token) : res_token;
+				if (res_token && res_token.res_code==0) {
+					$preview.hide();
+			        $progress.show();
+			        var fd = new FormData();
+			        fd.append("token", res_token.msg.token);
+			        fd.append("key", res_token.msg.key);
+		            fd.append("file", $domObj.find('input[name="attachment"]')[0].files[0]);
+		            var xhr = new XMLHttpRequest();
+		            xhr.upload.addEventListener("progress", uploadProgress, false);
+		            xhr.addEventListener("load", uploadComplete, false);
+		            xhr.addEventListener("error", uploadFailed, false);
+		            xhr.addEventListener("abort", uploadCanceled, false);
+		            xhr.open("POST", defaults.uploadUrl);
+		            xhr.send(fd);
+				} else {
+					_this_input.value = "";
+					return alert("上传失败！");
+				}
+			}).error(function() {
+				_this_input.value = "";
+				return alert("上传失败！");
+			});
    	 	}
     );
     var uploadProgress=function(evt){
     	if (evt.lengthComputable) {
             var percentComplete = Math.round(evt.loaded * 100 / evt.total);
-            $("#haitou-GZSBUCK #resume-filename").html(percentComplete.toString() + '%');
+            $("#haitou-GZSBUCK .haitou-upload-progress").show().find(".haitou-upload-loaded").css({"width":percentComplete.toString() + '%'});
         }
     };
     var uploadComplete=function(evt){
@@ -377,14 +404,17 @@ Haitoubang.prototype.upload=function($domObj,options){
 		$("#haitou-GZSBUCK #resume-filename").html(upload_res.msg.file_name);
 		$preview.show();
         $progress.hide();
+        $("#haitou-GZSBUCK .haitou-upload-progress").hide();
     };
     var uploadFailed=function(evt){
     	 $preview.html("<span class='text-drang'>上传失败！</span>");
+        $("#haitou-GZSBUCK .haitou-upload-progress").hide();
     };
     var uploadCanceled = function(){
-    	alert("取消上传");
 		$preview.show();
         $progress.hide();
+        $("#haitou-GZSBUCK .haitou-upload-progress").hide();
+    	alert("取消上传");
     };
 }
 var haitoubang=new Haitoubang;

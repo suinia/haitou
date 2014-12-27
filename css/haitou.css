@@ -1290,7 +1290,8 @@
 .haitoubang .text-capitalize {
   text-transform: capitalize;
 }
-.haitoubang .text-danger {
+.haitoubang .text-danger,
+.haitoubang .haitou-red-text {
 	color: #e4564f;
 }
 .haitoubang .text-success{
@@ -1497,4 +1498,26 @@
 }
 .haitou-send-box textarea.form-control{
 	height: 120px;
+}
+.haitou-upload-tip{
+	margin-top: -5px;
+	padding: 5px 0;
+}
+.haitou-upload-progress{
+	height: 10px;
+	width: 100%;
+	display: none;
+	position: relative;
+	margin-bottom: 10px;
+	border-radius: 5px;
+	background: #ccc;
+}
+.haitou-upload-loaded{
+	height: 10px;
+	width: 0;
+	position: absolute;
+	left: 0;
+	top: 0;
+	background: #5cb85c;
+	border-radius: 5px;
 }
