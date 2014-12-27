@@ -31,10 +31,11 @@ Dialog.prototype.create=function(){
     this.$wrapdiv=$("<div></div>").addClass('haitou-dialog '+this.opts.customClass)
     this.dialogContentWrap=$("<div>").addClass('haitou-dialogContent');
     var that=this;
-    this.dialogCloseBtn=$("<div class='close'>×</div><div class='haitou-background fade in' style='display:none'><i class='light-blue fa fa-2x fa-spinner fa-spin'></i></div>").click(function(){
+    this.dialogCloseBtn=$("<div class='close'>×</div>").click(function(){
         that.close();
     });
     this.dialogContentWrap.append(this.dialogCloseBtn);
+    this.dialogContentWrap.append("<div class='haitou-background fade in' style='display:none'><i class='light-blue fa fa-2x fa-spinner fa-spin'></i></div>");
     this.dialogContent=this.content;
     this.$wrapdiv.append(this.dialogContentWrap);
     $(this.dialogContentWrap).append(this.dialogContent);

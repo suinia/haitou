@@ -1456,7 +1456,7 @@
 	right: 0;
 	bottom: 0;
 	left: 0;
-	z-index: 2;
+	z-index: 10;
 	background-color: #fff
 }
 .haitou-background.fade {
@@ -1504,12 +1504,12 @@
 .haitou-send-box textarea.form-control{
 	height: 120px;
 }
-.haitou-send-box .send-success{
+#haitou-GZSBUCK .send-success{
 	padding: 20px 0;
-	text-align: center;
 }
-.haitou-send-box .send-success p{
+#haitou-GZSBUCK .send-success p{
 	margin-bottom: 10px;
+	text-align: center;
 }
 .haitou-upload-tip{
 	margin-top: -5px;
