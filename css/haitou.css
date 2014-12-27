@@ -1325,8 +1325,8 @@
 .haitou-dialog .close{
 	cursor: pointer;
 	overflow: hidden;
-	top: 10px;
-	right: 10px;
+	top: 0px;
+	right: 5px;
 	position: absolute
 }
 .haitou-dialog .closeBtn:hover {
@@ -1346,6 +1346,11 @@
 	border-bottom: 1px solid #ddd;
 	color: #d14836;
 	font-style: normal;
+}
+.haitou-dialog .haitou-logout{
+	font-size: 13px;
+	color: #666;
+	padding: 10px 10px 0 0;
 }
 #haitou-GZSBUCK{
 	 -webkit-box-sizing: border-box;
@@ -1498,6 +1503,13 @@
 }
 .haitou-send-box textarea.form-control{
 	height: 120px;
+}
+.haitou-send-box .send-success{
+	padding: 20px 0;
+	text-align: center;
+}
+.haitou-send-box .send-success p{
+	margin-bottom: 10px;
 }
 .haitou-upload-tip{
 	margin-top: -5px;

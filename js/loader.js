@@ -56,27 +56,27 @@ Haitoubang.prototype.validateEmail=function(email){
 }
 Haitoubang.prototype.init=function(){
 	var _this=this;
-	if(_this.getEmailAddr() && _this.getEmailAddr().length>0){
-		chrome.extension.sendRequest(
-		    {type: "show-haitou", url: location.href},
-		    function(response) {
-		        if (response.isshow) {
-				    var $BtnWrap=$("<div id='haitou-GZSBUCK' class='haitoubang'></div>").appendTo("body");
-				    var btnHtml="<div class='haitou-placeholder'></div><div class='haitou-sendtool text-center'><a class='btn btn-primary btn-lg' id='sendBtn'> 投 简 历 </div></div>";
-				    $BtnWrap.append(btnHtml);
-					_this.getLoginStatus(function(){
-						_this.bindEvent();
-					});
-				} 
-		    }
-		);
-	}
-//var $BtnWrap=$("<div id='haitou-GZSBUCK' class='haitoubang'></div>").appendTo("body");
+//	if(_this.getEmailAddr() && _this.getEmailAddr().length>0){
+//		chrome.extension.sendRequest(
+//		    {type: "show-haitou", url: location.href},
+//		    function(response) {
+//		        if (response.isshow) {
+//				    var $BtnWrap=$("<div id='haitou-GZSBUCK' class='haitoubang'></div>").appendTo("body");
 //				    var btnHtml="<div class='haitou-placeholder'></div><div class='haitou-sendtool text-center'><a class='btn btn-primary btn-lg' id='sendBtn'> 投 简 历 </div></div>";
 //				    $BtnWrap.append(btnHtml);
 //					_this.getLoginStatus(function(){
 //						_this.bindEvent();
 //					});
+//				} 
+//		    }
+//		);
+//	}
+var $BtnWrap=$("<div id='haitou-GZSBUCK' class='haitoubang'></div>").appendTo("body");
+				    var btnHtml="<div class='haitou-placeholder'></div><div class='haitou-sendtool text-center'><a class='btn btn-primary btn-lg' id='sendBtn'> 投 简 历 </div></div>";
+				    $BtnWrap.append(btnHtml);
+					_this.getLoginStatus(function(){
+						_this.bindEvent();
+					});
 }
 Haitoubang.prototype.htmlTpl={
 	accountHtml:	"<div class='haitoubang haitou-login-box register'><h3>注册</h3>"
@@ -154,7 +154,7 @@ Haitoubang.prototype.getLoginStatus=function(callback){
 Haitoubang.prototype.getEmailAddr=function(){
 //	var text=$("body").html(),reg=/[\w\.\+-]+@[\w\.\+-]+/g;
 //	return text.match(reg);
-	return ['366401288@qq.com']
+	return ['530561526@qq.com']
 }
 Haitoubang.prototype.sendHtml=function(){
 	var _this=this, html="",email=this.getEmailAddr(),optionHtml="";
@@ -169,9 +169,9 @@ Haitoubang.prototype.sendHtml=function(){
 		if(res && res.res_code ===0){
 			var fileHtml="<div class='pull-left'><span id='resume-filename' class='pull-left' style='padding-right:10px'></span><div class='pull-left haitou-upload'><a href='javascript:;'>上传简历</a></div></div>";
 			if(res.msg.file_name){
-				fileHtml="<div class='pull-left'><span id='resume-filename' class='pull-left' style='padding-right:10px'>"+res.msg.file_name+"</span><div class='pull-left haitou-upload'><a href='javascript:;'>更换简历</a></div><a href='javascript:;' class='pull-left'>下载简历</a></div>";
+				fileHtml="<div class='pull-left'><span id='resume-filename' class='pull-left' style='padding-right:10px'>"+res.msg.file_name+"</span><div class='pull-left haitou-upload'><a href='javascript:;'>更换简历</a></div><a href='javascript:;' class='pull-left haitou-download'>下载简历</a></div>";
 			}
-			html+="<div class='haitoubang haitou-send-box'><h3>投递简历</h3>"
+			html+="<div class='haitoubang haitou-send-box'><h3 class='clearfix'><span class='pull-left'>投递简历</span><a class='pull-right haitou-logout' href='javascript:;'>退出登录</a></h3>"
 				+	"<p>投递邮箱：</p<a href='javascript:;'></a>"
 				+	"<select name='mail_addr' class='form-control'>"
 				+	optionHtml
@@ -244,6 +244,7 @@ Haitoubang.prototype.bindEvent=function(){
 			}
 			var url='/api/accounts/forgotpasswd',
 				successCallback=_this.forgotCallback,
+				type='forgot',
 				errorMsg="请求失败，请重试！";
 		}else{
 			var post_data={
@@ -268,11 +269,13 @@ Haitoubang.prototype.bindEvent=function(){
 			if($objParent.hasClass("signin")){
 				var url='/api/accounts/signin',
 					successCallback=_this.signCallback,
+					type='signin',
 					errorMsg="登陆失败，请重试！";
 			}
 			if($objParent.hasClass("register")){
 				var url='/api/accounts/signup',
 					successCallback=_this.signCallback,
+					type='register',
 					errorMsg="注册失败，请重试！";
 			}
 			post_data.passwd=$.md5(post_data.passwd)
@@ -283,7 +286,7 @@ Haitoubang.prototype.bindEvent=function(){
 			url: _this.HAITOU_API_URL+url,
 			async:true,
 			data:JSON.stringify(post_data),
-			success:function(res){successCallback.call(_this,res)},
+			success:function(res){successCallback.call(_this,res,post_data,type)},
 			error:function(){alert(errorMsg)}
 		}).complete(function(){_this.hideMask()});
 		return false;
@@ -318,11 +321,41 @@ Haitoubang.prototype.bindEvent=function(){
 		}).complete(function(){_this.hideMask();});
 		return false;
 	});
+	$("#haitou-GZSBUCK").on("click",".haitou-download",function(){
+		$.ajax({
+			type:"post",
+			url: _this.HAITOU_API_URL+'/api/attachment/download',
+			success:function(res_down){
+				res_down = typeof res_down === 'string' ? $.parseJSON(res_down) : res_down;
+				if(res_down && res_down.res_code===0){
+					window.open(res_down.msg.url); 
+				}else{
+					alert("下载请求失败，请重试！")
+				}
+			},
+			error:function(){alert("下载请求失败，请重试！")}
+		});
+		return false;
+	});
+	$("#haitou-GZSBUCK").on("click",".haitou-logout",function(){
+		$.ajax({
+			type:"post",
+			url: _this.HAITOU_API_URL+'/api/accounts/signout',
+			success:function(res_down){
+				localStorage.removeItem('haitou-user');
+				_this.isLogin = false;
+				_this.dialog.close();
+				$("#haitou-GZSBUCK #sendBtn").click();
+			},
+			error:function(){alert("退出失败，请重试！")}
+		});
+		return false;
+	});
 }
 Haitoubang.prototype.sendCallback=function(res){
 	var _this=this,res=JSON.parse(res),$obj=$("#haitou-GZSBUCK").find("#haitou-send-resume")
 	if(res && res.res_code === 0){
-		$obj.html("<p><a href='"+this.HAITOU_API_URL+"/list' class='text-danger' target='_blank'>查看投递记录</a></p><p class='text-success'>投递成功!</p>");
+		$obj.html("<div class='send-success'><p><a href='"+this.HAITOU_API_URL+"/list' class='text-danger' target='_blank'>查看投递记录</a></p><p class='text-success'>投递成功!</p></div>");
 	}else{
 		$obj.find(".text-danger").html(_this.HAITOU_ERR_MSG.send[res.res_code]||"投递失败，请重试！").removeClass('hide');
 	}
@@ -336,14 +369,27 @@ Haitoubang.prototype.forgotCallback=function(res){
 		$obj.find(".text-danger").html(_this.HAITOU_ERR_MSG.forgot[res.res_code]||"重置密码出错，请重试！").removeClass('hide');
 	}
 }
-Haitoubang.prototype.signCallback=function(res){
+Haitoubang.prototype.signCallback=function(res,post_data,type){
 	var  _this=this;
-	_this.dialog.close();
-	_this.dialog=new Dialog({
-		width:400,
-		content:"<div id='haitou-send-resume' style='line-height: 150px;text-align: center'>加载中。。。</div>"
-	});
-	_this.sendHtml();
+	res = typeof res === 'string' ? $.parseJSON(res) : res;
+	if(res && res.res_code==0){
+		if(post_data.passwd){
+			this.set('haitou-user', JSON.stringify(post_data));
+		}
+		_this.dialog.close();
+		_this.dialog=new Dialog({
+			width:400,
+			content:"<div id='haitou-send-resume' style='line-height: 150px;text-align: center'>加载中。。。</div>"
+		});
+		_this.sendHtml();
+	}else{
+		if(type=='register'){
+			$(".haitou-login-box.register").find(".text-danger").html(_this.HAITOU_ERR_MSG.signup[res.res_code]||"注册失败").removeClass("hide");
+		}
+		if(type=='signin'){
+			$(".haitou-login-box.signin").find(".text-danger").html(_this.HAITOU_ERR_MSG.signin[res.res_code]||"登录失败").removeClass("hide");
+		}
+	}
 }
 Haitoubang.prototype.upload=function($domObj,options){
 	var _this=this;
@@ -360,12 +406,15 @@ Haitoubang.prototype.upload=function($domObj,options){
 	$domObj.on("change", ".uploadFile",
     	function() {
     		var _this_input=this;
-    		var arr = _this_input.value.split('\\');
-			var file_name = arr[arr.length - 1];
+    		var upload_file = $domObj.find('input[name="attachment"]')[0].files[0];
+          	if (upload_file.size > 2 * 1024 * 1024){
+				_this_input.value = "";
+				return alert("请上传小于2m的附件！");
+          	}
 			$.ajax({
 				type: "post",
 				url: _this.HAITOU_API_URL+"/api/attachment/token",
-				data:JSON.stringify({"file_name":file_name})
+				data:JSON.stringify({"file_name":upload_file.name})
 			}).success(function(res_token) {
 				res_token = typeof res_token === 'string' ? $.parseJSON(res_token) : res_token;
 				if (res_token && res_token.res_code==0) {
