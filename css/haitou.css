@@ -1245,8 +1245,8 @@
   background-color: transparent;
   border: 0;
 }
-.haitoubang .close,
-.haitou-dialog .close {
+.haitoubang .haitou-close,
+.haitou-dialog .haitou-close{
 	float: right !important;
 	font-size: 21px;
 	font-weight: 700;
@@ -1254,7 +1254,8 @@
 	color: #000;
 	text-shadow: 0 1px 0 #fff;
 	filter: alpha(opacity=20);
-	opacity: .2
+	opacity: .2;
+	cursor: pointer;
 }
 .haitoubang .close:hover,
 .haitou-dialog .close:hover,
@@ -1346,11 +1347,6 @@
 	border-bottom: 1px solid #ddd;
 	color: #d14836;
 	font-style: normal;
-}
-.haitou-dialog .haitou-logout{
-	font-size: 13px;
-	color: #666;
-	padding: 10px 10px 0 0;
 }
 #haitou-GZSBUCK{
 	 -webkit-box-sizing: border-box;
@@ -1511,11 +1507,11 @@
 	margin-bottom: 10px;
 	text-align: center;
 }
-.haitou-upload-tip{
+#haitou-GZSBUCK .haitou-upload-tip{
 	margin-top: -5px;
 	padding: 5px 0;
 }
-.haitou-upload-progress{
+#haitou-GZSBUCK .haitou-upload-progress{
 	height: 10px;
 	width: 100%;
 	display: none;
@@ -1524,7 +1520,7 @@
 	border-radius: 5px;
 	background: #ccc;
 }
-.haitou-upload-loaded{
+#haitou-GZSBUCK .haitou-upload-loaded{
 	height: 10px;
 	width: 0;
 	position: absolute;
@@ -1532,4 +1528,46 @@
 	top: 0;
 	background: #5cb85c;
 	border-radius: 5px;
+}
+#haitou-GZSBUCK .haitou-logo{
+	background: url(chrome-extension://__MSG_@@extension_id__/images/icon-128.png) no-repeat;
+	background-size: 45px 45px;
+	position: absolute;
+	left: 10px;
+	top: 10px;
+	padding:12px 0 12px 55px;
+	color: #666;
+}
+#haitou-GZSBUCK .haitou-info{
+	position: absolute;
+	top: 13px;
+	right: 25px;
+	text-align: right;
+	padding-top: 10px;
+}
+#haitou-GZSBUCK .haitou-logout{
+	padding: 0 10px;
+}
+#haitou-GZSBUCK .haitou-expand{
+	position: absolute;
+	right: 2px;
+	top: 0px;
+	border-left: 1px solid #d8d8d8;
+	height: 60px;
+	cursor: pointer;
+	color: #ccc;
+	padding: 23px 0 0 5px;
+}
+#haitou-GZSBUCK.up .haitou-sendtool{
+	width: 280px;
+}
+#haitou-GZSBUCK.up .haitou-info,
+#haitou-GZSBUCK.up a.btn{
+	display: none;
+}
+#haitou-GZSBUCK #resume-filename{
+	width: 380px;
+	text-overflow: ellipsis;
+	white-space:nowrap; 
+	overflow: hidden;
 }
