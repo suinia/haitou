@@ -47,7 +47,7 @@ function getApplyList(){
 function status_text(s){
 	switch(s){
 		case 0:
-			return "<span class='right text-success'><a href='http://haitoubang.sinaapp.com/apply/list' class='text-success' target='_blank'>发送中</a>";
+			return "<span class='right'><a href='http://haitoubang.sinaapp.com/apply/list' class='text-success' target='_blank'>发送中</a>";
 			break;
 		case 1:
 			return "<span class='right'><a href='http://haitoubang.sinaapp.com/apply/list' class='text-danger' target='_blank'>发送失败</a>";
@@ -56,10 +56,10 @@ function status_text(s){
 			return "<span class='right'><a href='http://haitoubang.sinaapp.com/apply/list' class='text-success' target='_blank'>发送成功</a>";
 			break;
 		case 3:
-			return "<span class='right'><a href='http://haitoubang.sinaapp.com/apply/list' class='text-success' target='_blank'>邮件已读</a>";
+			return "<span class='right'><a href='http://haitoubang.sinaapp.com/apply/list' class='text-success' target='_blank'>HR已读</a>";
 			break;
 		case 4:
-			return "<span class='right'><a href='http://haitoubang.sinaapp.com/apply/list' class='text-success' target='_blank'>邮件已回复</a>";
+			return "<span class='right'><a href='http://haitoubang.sinaapp.com/apply/list' class='text-success' target='_blank'>HR已回复</a>";
 			break;
 	}
 }
