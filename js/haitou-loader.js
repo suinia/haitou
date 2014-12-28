@@ -212,7 +212,7 @@ Haitoubang.prototype.bindEvent=function(){
 		if(_this.isLogin){
 			_this.dialog=new Dialog({
 				width:400,
-				content:"<div id='haitou-send-resume' style='line-height: 150px;text-align: center'>加载中。。。</div>"
+				content:"<div id='haitou-send-resume' style='line-height: 150px;text-align: center'>加载中...</div>"
 			});
 			_this.sendHtml();
 		}else{
@@ -380,7 +380,7 @@ Haitoubang.prototype.bindEvent=function(){
 Haitoubang.prototype.sendCallback=function(res){
 	var _this=this,res=JSON.parse(res),$obj=haitou_$("#haitou-GZSBUCK").find("#haitou-send-resume")
 	if(res && res.res_code === 0){
-		$obj.html("<div class='send-success'><p class='text-success'>投递成功!</p><p><a href='"+this.HAITOU_API_URL+"/list' class='text-danger' target='_blank'>查看投递记录</a></p></div>");
+		$obj.html("<div class='send-success'><p class='text-success'>投递成功!</p><p><a href='"+this.HAITOU_API_URL+"/apply/list' class='text-danger' target='_blank'>查看投递记录</a></p></div>");
 	}else{
 		alert(_this.HAITOU_ERR_MSG.send[res.res_code]||"投递失败，请重试！")
 //		$obj.find(".text-danger").html(_this.HAITOU_ERR_MSG.send[res.res_code]||"投递失败，请重试！").removeClass('hide');
@@ -406,7 +406,7 @@ Haitoubang.prototype.signCallback=function(res,post_data,type){
 		_this.dialog.close();
 		_this.dialog=new Dialog({
 			width:400,
-			content:"<div id='haitou-send-resume' style='line-height: 150px;text-align: center'>已经"+(type=='register'?"注册":"登录")+"成功，跳转中...</div>"
+			content:"<div id='haitou-send-resume' style='line-height: 150px;text-align: center'>"+(type=='register'?"注册":"登录")+"成功，跳转中...</div>"
 		});
 		_this.sendHtml();
 	}else{
@@ -434,7 +434,7 @@ Haitoubang.prototype.upload=function($domObj,options){
     	function() {
     		var _this_input=this;
     		var upload_file = $domObj.find('input[name="attachment"]')[0].files[0];
-          	if (upload_file.size > 2 * 1024 * 1024){
+          	if (upload_file.size && upload_file.size > 2 * 1024 * 1024){
 				_this_input.value = "";
 				return alert("请上传小于2m的附件！");
           	}
@@ -482,7 +482,6 @@ Haitoubang.prototype.upload=function($domObj,options){
 		$preview.show();
         $progress.hide();
         haitou_$("#haitou-GZSBUCK .haitou-upload-progress").hide();
-        alert()
         if(haitou_$("#haitou-GZSBUCK .haitou-upload a").text()=='上传简历'){
         	haitou_$("#haitou-GZSBUCK .haitou-upload a").text("更换简历");
         	haitou_$("#haitou-GZSBUCK .haitou-upload").next(".haitou-download").show()

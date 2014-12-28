@@ -100,7 +100,7 @@ function showNotify(){
         	var res = typeof xhr.response === 'string' ? JSON.parse(xhr.response) : xhr.response;
         	var options =  {
                 type: "basic",
-                title: "海投帮 - 快速投递简历",
+                title: "海投帮 - 投简历快人一步",
                 message: "海投帮",
                 iconUrl: "images/icon-48.png",
                 buttons: [{ title: "去看看"}]
