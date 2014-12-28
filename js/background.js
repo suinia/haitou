@@ -1,4 +1,10 @@
 var HAITOU_URL="http://haitoubang.sinaapp.com";
+function get(key) {
+    return localStorage[key];
+}
+function set(key, val) {
+    localStorage[key] = val;
+}
 (function(){
 	var haitou_bg={};
 	chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
@@ -21,6 +27,17 @@ var HAITOU_URL="http://haitoubang.sinaapp.com";
 		}
 		if (request == "get-site"){
 			sendResponse(reg_site);
+		}
+		if (request.type == "get-userinfo"){
+			sendResponse(get('haitou_userinfo')||"");
+		}
+		if (request.type == "set-userinfo"){
+			set('haitou_userinfo', request.data);
+			sendResponse(true);
+		}
+		if (request.type == "rm-userinfo"){
+			localStorage.removeItem('haitou_userinfo');
+			sendResponse(true);
 		}
 	});
 })();
@@ -72,12 +89,6 @@ function parseConfigXML(doc) {
 	    var sarr = s.lastChild.nodeValue;
 	    if (sarr) set('haitou_reg_txt', sarr);
     }
-}
-function get(key) {
-    return localStorage[key];
-}
-function set(key, val) {
-    localStorage[key] = val;
 }
 // 每隔半10分钟拉取查看是否有未读通知
 if(chrome.notifications) {

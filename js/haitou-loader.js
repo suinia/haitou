@@ -31,6 +31,11 @@
 			}
 		}
 		this.isLogin = false;
+		var _this = this;
+		_this.userinfo="";
+		chrome.extension.sendRequest({type: 'get-userinfo'},function(userinfo){
+			_this.userinfo = userinfo||'';
+		});
 	}
 	Haitoubang.prototype.showMask=function(){
 		haitou_$("#haitou-GZSBUCK .haitou-background").show();
@@ -38,17 +43,22 @@
 	Haitoubang.prototype.hideMask=function(){
 		haitou_$("#haitou-GZSBUCK .haitou-background").hide();
 	}
-	Haitoubang.prototype.get = function(key) {
-	    return localStorage[key];
-	}
-	Haitoubang.prototype.set = function(key, val) {
-	    localStorage[key] = val;
-	}
 	Haitoubang.prototype.validateEmail=function(email){
 		if (email.length == 0) return false;
 	    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i;
 	    return re.test(email);
 	}
+	Haitoubang.prototype.unique=function(arr,email){
+	    var value = [], hash = {};
+	    for(var i=0,j=arr.length;i<j;++i){
+	        var type = typeof arr[i]+arr[i];
+	        if(!hash[type]){
+	            hash[type] = 1;
+	          if(arr[i] !== email){value[value.length] = arr[i];}
+	        }
+	    }
+		return value;
+ 	}
 	Haitoubang.prototype.init=function(){
 		var _this=this;
 		if(_this.getEmailAddr() && _this.getEmailAddr().length>0){
@@ -62,8 +72,9 @@
 					    			+"<a class='btn btn-primary btn-lg' href='javascript:;' id='sendBtn'> 投 简 历 </a><div class='haitou-expand'><i class='fa fa-angle-double-left'></i></div></div></div>";
 					    $BtnWrap.append(btnHtml);
 						_this.getLoginStatus(function(){
-							var user_info = _this.get('haitou_user')||"";
-								_this.setUserInfo(user_info);
+							if(_this.isLogin){
+								_this.setUserInfo(_this.userinfo);
+							}
 							_this.bindEvent();
 						});
 					} 
@@ -77,12 +88,11 @@
 		}catch(e){
 			user_info = "";
 		}
-		if(user_info.email){
+		if(user_info && user_info.email){
 			haitou_$("#haitou-user-info").html("hi，"+user_info.email+" <a href='javascript:;' class='haitou-logout'>退出登录</a>");
 		}else{
 			haitou_$("#haitou-user-info").html("<a href='javascript:;' class='haitou-logout'>退出登录</a>");
 		}
-		haitou_$("#haitou-user-info").html("hi，"+(user_info.email||'用户')+" <a href='javascript:;' class='haitou-logout'>退出</a>");
 	}
 	Haitoubang.prototype.htmlTpl={
 		accountHtml:	"<div class='haitoubang haitou-login-box register'><h3>注册海投帮</h3>"
@@ -132,8 +142,8 @@
 					callback();
 					return 
 		   	 	}else{
-		   	 		var haitou_user = _this.get('haitou_user')||"";
-		   	 		if(haitou_user && haitou_user!=""){
+					var haitou_user = _this.userinfo;
+					if(haitou_user && haitou_user!=""){
 		   	 			haitou_user = JSON.parse(haitou_user)
 		   	 			var post_data={
 		   	 				email:haitou_user.email,
@@ -142,7 +152,6 @@
 		   	 			$.ajax({
 							type:"post",
 							url:_this.HAITOU_API_URL+'/api/accounts/signin',
-							async:true,
 							data:JSON.stringify(post_data)
 						}).success(function(res){
 							var res=JSON.parse(res);
@@ -158,8 +167,17 @@
 		});
 	}
 	Haitoubang.prototype.getEmailAddr=function(){
-		var text=haitou_$("body").html(),reg=/[\w\.\+-]+@[\w\.\+-]+/g;
-		return text.match(reg);
+		var text=haitou_$("body").html(),reg=/[\w\.\+-]+@[\w\.\+-]+/g,
+			arr = text.match(reg);
+		var haitou_user = this.userinfo,unemail="";
+		if(haitou_user && haitou_user!=""){
+			haitou_user = JSON.parse(haitou_user);
+			unemail=haitou_user.email||"";
+		}
+		if(arr){
+			arr = this.unique(arr,unemail)
+		}
+		return arr||"";
 	}
 	Haitoubang.prototype.sendHtml=function(){
 		var _this=this, html="",email=this.getEmailAddr(),optionHtml="";
@@ -317,7 +335,7 @@
 			if(!post_data.mail_subject){errorMSG.push("邮件标题不能为空！");}
 			if(!post_data.mail_body){errorMSG.push("正文不能为空！");}
 			if(errorMSG && errorMSG.length>0){
-				return $objParent.find(".text-danger").html(errorMSG[0]).removeClass("hide");
+				return $parentObj.find(".text-danger").html(errorMSG[0]).removeClass("hide");
 			}
 			_this.showMask();
 			$.ajax({
@@ -339,7 +357,7 @@
 				success:function(res_down){
 					res_down = typeof res_down === 'string' ? JSON.parse(res_down) : res_down;
 					if(res_down && res_down.res_code===0){
-						window.open(res_down.msg.url); 
+						window.open(res_down.msg.url);
 					}else{
 						alert("下载请求失败，请重试！")
 					}
@@ -353,9 +371,10 @@
 				type:"post",
 				url: _this.HAITOU_API_URL+'/api/accounts/signout',
 				success:function(res_down){
-					localStorage.removeItem('haitou_user');
 					_this.isLogin = false;
-					haitou_$("#haitou-user-info").html('');
+					chrome.extension.sendRequest({type: 'rm-userinfo'},function(){
+						haitou_$("#haitou-user-info").html('');
+					})
 				},
 				error:function(){alert("退出失败，请重试！")}
 			});
@@ -376,9 +395,13 @@
 		if(res && res.res_code === 0){
 			$obj.html("<div class='send-success'><p class='text-success'>投递成功!</p><p><a href='"+this.HAITOU_API_URL+"/apply/list' class='text-danger' target='_blank'>查看投递记录</a></p></div>");
 		}else{
-			alert(_this.HAITOU_ERR_MSG.send[res.res_code]||"投递失败，请重试！")
-	//		$obj.find(".text-danger").html(_this.HAITOU_ERR_MSG.send[res.res_code]||"投递失败，请重试！").removeClass('hide');
+			if(res.res_code==3){
+				$obj.html("<div class='send-success'><p class='text-danger'>你已投递此职位!</p><p><a href='"+this.HAITOU_API_URL+"/apply/list' class='text-danger' target='_blank'>查看投递记录</a></p></div>");
+				return false;
+			}
+			$obj.find(".text-danger").html(_this.HAITOU_ERR_MSG.send[res.res_code]||"投递失败，请重试！").removeClass('hide');
 		}
+		return false;
 	}
 	Haitoubang.prototype.forgotCallback=function(res){
 		var  _this=this,res=JSON.parse(res),$obj=haitou_$(".haitou-login-box.forgot");
@@ -394,7 +417,7 @@
 		res = typeof res === 'string' ? JSON.parse(res) : res;
 		if(res && res.res_code==0){
 			if(post_data.passwd){
-				this.set('haitou_user', JSON.stringify(post_data));
+				chrome.extension.sendRequest({type: 'set-userinfo', data: JSON.stringify(post_data)});
 				_this.setUserInfo(JSON.stringify(post_data));
 			}
 			_this.dialog.close();
