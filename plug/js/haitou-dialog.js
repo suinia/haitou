@@ -64,7 +64,7 @@ Dialog.prototype._setZIndex=function(){
     DialogIndex++;
 }
 Dialog.prototype._position=function(targetWin,width,height){
-    var targetHeight = haitou_$(targetWin).height(),
+    var targetHeight = window.innerHeight,
         scrollTop = haitou_$(targetWin).scrollTop(),
         availTop = 0,
         content=this.dialogContent,
