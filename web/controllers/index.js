@@ -5,6 +5,18 @@ exp.get.index=function(req, res, next){
 	return res.render('index', {});
 }
 
+exp.get.signin=function(req, res, next){
+	return res.render('signin', {});
+}
+
+exp.get.signup=function(req, res, next){
+	return res.render('signup', {});
+}
+
+exp.get.forgot=function(req, res, next){
+	return res.render('forgot', {});
+}
+
 exp.get.list=function(req, res, next){
 	return res.render('apply/list', {});
 }
