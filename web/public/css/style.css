@@ -18,6 +18,61 @@ body, button, input, select, textarea, table {
 body{
 	background: #efeee4;
 }
+/*CSS style For Dialog*/
+.dialogMask {
+	display: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-color: #2d2b27;
+	filter: alpha(opacity=50);
+	-moz-opacity: .50;
+	opacity: 0.50;
+	border-width: 0px;
+	z-index: 199;
+	height: 0;
+	overflow: hidden;
+}
+.dialogContent{
+	position: relative;
+}
+.dialog{
+	background: #fff;
+	border-radius: 10px;
+	min-width: 200px;
+	min-height: 100px;
+	padding: 10px;
+	font-family: "Microsoft YaHei","微软雅黑",Arial,Helvetica,Verdana,Simsun,"宋体";
+}
+.dialog .close{
+	cursor: pointer;
+	overflow: hidden;
+	top: 0px;
+	right: 5px;
+	position: absolute
+}
+.dialog .closeBtn:hover {
+	background-position: 0 -30px
+}
+.dialog a{
+	color: #666;
+	text-decoration: underline;
+}
+.dialog a:hover{
+	color: #d14836;
+}
+.dialog h3{
+	font-size: 20px;
+	padding: 0 0 10px 0;
+	margin: 0 0 30px 0;
+	border-bottom: 1px solid #ddd;
+	color: #d14836;
+	font-style: normal;
+}
+.dialog pre{
+	white-space: pre-wrap;
+}
+/*End Css Style For Dialog*/
 .button-outline {
     background: none repeat scroll 0 0 rgba(0, 0, 0, 0.15);
     border: 2px solid #fff;
@@ -59,7 +114,8 @@ body{
 	font-size: 12px;
 	margin: 0;
 }
-.nav li a:hover{
+.nav li a:hover,
+.nav li a.active{
 	background: none;
 	color: #2390d1;
 }

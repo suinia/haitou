@@ -14,7 +14,7 @@ ApplyList.prototype.init=function(){
     this.render();
     this.pagination();
     $("body").on("click",".reply a",function(){
-    	var id =this.attr("data-id");
+    	var id = $(this).attr("data-id");
     	_this.getFeedBack(id);
     });
 }
@@ -31,6 +31,12 @@ ApplyList.prototype.render=function(){
 		if(data && data.res_code === 0){
 			var list = doT.template($("#applistTpl").text(), undefined, undefined);
 			$("#applist").html(list(data.msg));
+		}else{
+			if(data.res_code == 253){
+				location.href="/";
+			}else{
+				$("#applist").html(list(data.msg));
+			}
 		}
 	});
 }
@@ -90,6 +96,7 @@ ApplyList.prototype.pagination=function(){
 	}
 }
 ApplyList.prototype.getFeedBack=function(id){
+	var _this = this;
 	$.ajax({
 		type:"post",
 		url:"http://haitoubang.sinaapp.com/api/apply/feedback",
@@ -98,9 +105,9 @@ ApplyList.prototype.getFeedBack=function(id){
 	}).success(function(data){
 		data = typeof data === 'string' ? $.parseJSON(data) : data;
 		if(data && data.res_code === 0){
-			new Dialog({
+			 _this.dialog = new Dialog({
 				width:400,
-				content:data.mail_body
+				content:$("<p><pre>"+data.msg.mail_body+"</pre></p>")
 			});
 		}
 	});
