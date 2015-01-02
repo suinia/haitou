@@ -175,4 +175,62 @@ footer a{
 /*apply list css*/
 .panel{
 	margin-top: 30px;
+	padding-bottom: 10px;
+}
+.panel .breadcrumb{
+	margin-bottom: 5px;
+}
+.panel .row{
+	padding: 8px 15px;
+}
+.panel .status,
+.panel .title,
+.panel .reply,
+.panel .active_time{
+	float: left;
+	padding: 0 8px;
+	height: 20px;
+}
+.panel .status{
+	width: 80px;
+	padding-left: 15px;
+}
+.panel hr{
+	border-color: #ccc;
+	margin: 10px 15px 5px 15px;
+}
+.panel a{
+	color: #333;
+}
+.panel .active_time{
+	font-size: 12px;
+	padding-top:3px;
+	text-align: right;
+}
+.panel a.text-success{
+	color: #3c763d;
+}
+.panel .title{
+	text-overflow: ellipsis;
+	white-space:nowrap; 
+	overflow: hidden;
+	width: 650px;
+}
+.panel .reply{
+	text-align: center;
+	width: 120px;
+}
+.panel .active_time{
+	width: 120px;
+}
+.pagination {
+	display: block;
+    margin: 10px 10px 0 10px;
+}
+.ds-thread{
+	padding: 15px;
+}
+.well{
+	background: #fff;
+	margin-top: 20px;
 }

@@ -20,5 +20,8 @@ exp.get.forgot=function(req, res, next){
 exp.get.list=function(req, res, next){
 	return res.render('apply/list', {});
 }
+exp.get.feedback=function(req, res, next){
+	return res.render('feedback', {});
+}
 
 module.exports = exp;

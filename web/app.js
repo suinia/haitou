@@ -18,11 +18,8 @@ var _load_ctrls = function(app){
         _set_url(app, 'post', x);
     });
 	app.get('/', require('./controllers/index').get.index);
-//	app.get('/signin', require('./controllers/index').get.signin);
-//	
-//	app.get('/signup', require('./controllers/index').get.signup);
-//	
-//	app.get('/forgot', require('./controllers/index').get.forgot);
+	app.get('/feedback', require('./controllers/index').get.feedback);
+	app.get('/apply/list/:id', require('./controllers/index').get.list);
 	
 };
 var _set_url = function(app, verb, ctrl){
