@@ -1,6 +1,6 @@
 function ApplyList(options){
 	var defaults = {
-        url:"http://haitoubang.sinaapp.com/api/apply/list",
+        url:"/api/apply/list",
         offset:"0",
         limit:"10",
         current_page:1,
@@ -12,7 +12,6 @@ function ApplyList(options){
 ApplyList.prototype.init=function(){
     var _this=this;
     this.render();
-    this.pagination();
     $("body").on("click",".reply a",function(){
     	var id = $(this).attr("data-id");
     	_this.getFeedBack(id);
@@ -27,10 +26,19 @@ ApplyList.prototype.render=function(){
 		async:true,
 		data:JSON.stringify({"offset":offset,"limit":_this.opts.limit})
 	}).success(function(data){
+		$(".modal-backdrop.white").hide();
 		data = typeof data === 'string' ? $.parseJSON(data) : data;
 		if(data && data.res_code === 0){
-			var list = doT.template($("#applistTpl").text(), undefined, undefined);
-			$("#applist").html(list(data.msg));
+			if(data.msg && data.msg.length>0){
+				var list = doT.template($("#applistTpl").text(), undefined, undefined);
+				$("#applist").html(list(data.msg));
+    			_this.pagination();
+			}else if(_this.opts.current_page == 1){
+				$("#applist").html("<p class='text-center' style='padding-top:100px'>你还没有投递简历，赶紧去<a href='/' class='text-success'>下载插件</a>投简历</p>");
+			}else{
+				$("#applist").html("<p class='text-center' style='padding-top:100px'>没有记录</p>");
+    			_this.pagination();
+			}
 		}else{
 			if(data.res_code == 253){
 				location.href="/";
@@ -97,18 +105,24 @@ ApplyList.prototype.pagination=function(){
 }
 ApplyList.prototype.getFeedBack=function(id){
 	var _this = this;
+	$(".modal-backdrop.white").show();
 	$.ajax({
 		type:"post",
-		url:"http://haitoubang.sinaapp.com/api/apply/feedback",
+		url:"/api/apply/feedback",
 		async:true,
 		data:JSON.stringify({"apply_id":id})
 	}).success(function(data){
+		$(".modal-backdrop.white").hide();
 		data = typeof data === 'string' ? $.parseJSON(data) : data;
 		if(data && data.res_code === 0){
 			 _this.dialog = new Dialog({
 				width:400,
-				content:$("<p><pre>"+data.msg.mail_body+"</pre></p>")
+				content:$("<div class='feedback-text'><h3>HR回复正文</h3><p><pre>"+data.msg.mail_body+"</pre></p>")
 			});
 		}
+	}).error(function(){
+		alert("连接服务器失败，请重试！")
+	}).complete(function(){
+		$(".modal-backdrop.white").hide();
 	});
 }

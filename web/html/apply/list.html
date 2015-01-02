@@ -16,7 +16,7 @@
 			        <li><a href="/">下载</a></li>
 			        <li><a href="/feedback">反馈</a></li>
 			        <li><a href="/account/signup">注册</a></li>
-			        <li><button onclick="location.href='/signin'" class="btn btn-default navbar-btn" type="button">登录</button></li>
+			        <li><button onclick="location.href='/account/signin'" class="btn btn-default navbar-btn" type="button">登录</button></li>
 			      </ul>
 			    </nav>
 		  	</div>
@@ -51,8 +51,10 @@
 						    </div>
 						    <hr />
 					    {{~}}
-				    {{?? }}
+				    {{?? (!it || it.length<1)  }}
 				    	<p class="text-center">没有记录</p>
+				    {{??}}
+				    <p class="text-center">没有记录</p>
 				    {{?}}
 			   	</script>
 			   	<div class="pagination clearfix">
@@ -65,6 +67,7 @@
 				<p class="text-center copyright"><i class="fa fa-copyright"></i> 2015海投帮</p>
 			</div>
 		</footer>
+		<div class="modal-backdrop in white"><i class="light-blue fa fa-2x fa-spinner fa-spin"></i></div>
 		<script type="text/javascript" src="/js/jquery.js"></script>
 		<script type="text/javascript" src="/js/doT.min.js"></script>
 		<script type="text/javascript" src="/js/dialog.js"></script>

@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>注册 - 海投帮</title>
+		<title>登录 - 海投帮</title>
 		<link rel="stylesheet" type="text/css" href="/css/style.css"/>
 	</head>
 	<body>
@@ -14,10 +14,9 @@
 			    <nav role="navigation" class="collapse navbar-collapse bs-navbar-collapse">
 			      <ul class="nav navbar-nav navbar-right">
 			        <li><a href="/">下载</a></li>
-			        <li><a href="#">关于</a></li>
-			        <li><a href="#">反馈</a></li>
-			        <li><a href="/signup">注册</a></li>
-			        <li><button onclick="location.href='/signin'" class="btn btn-default navbar-btn" type="button">登录</button></li>
+			        <li><a href="/feedback">反馈</a></li>
+			        <li><a href="/account/signup">注册</a></li>
+			        <li><button onclick="location.href='/account/signin'" class="btn btn-default navbar-btn" type="button">登录</button></li>
 			      </ul>
 			    </nav>
 		  	</div>
@@ -36,23 +35,86 @@
 				<div class="form-group">
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                        <input type="password" placeholder="输入密码" class="form-control">
+                        <input type="password" name="passwd" placeholder="输入密码（6-16位）" class="form-control">
                     </div>
                 </div>
+                <p class="text-danger hide"></p>
                 <div class="form-group">
                     <button type="button" class="btn btn-primary btn-lg btn-block"> 登 录 </button>
                 </div>
                 <div class="clearfix">
-                	<a href="/forgot" class="pull-left">忘记密码?</a>
-                	<a href="/signup" class="pull-right">还没有账号？去注册 -></a>
+                	<a href="/account/forgot" class="pull-left">忘记密码?</a>
+                	<a href="/account/signup" class="pull-right">还没有账号？去注册 -></a>
                 </div>
 			</div>
 		</div>
 		<footer>
 			<div class="container">
-				<p class="text-center"><a href="/">下载插件</a><a href="/">关于我们</a><a href="/">意见反馈</a></p>
+				<p class="text-center"><a href="/">下载插件</a><a href="/feedback">意见反馈</a></p>
 				<p class="text-center copyright"><i class="fa fa-copyright"></i> 2015海投帮</p>
 			</div>
 		</footer>
+		<div class="modal-backdrop in white" style="display: none;"><i class="light-blue fa fa-2x fa-spinner fa-spin"></i></div>
+		<script type="text/javascript" src="/js/jquery.js"></script>
+		<script type="text/javascript" src="/js/jquery.md5.js"></script>
+		<script type="text/javascript" src="/js/common.js"></script>
+		<script>
+			$(".btn-primary").click(function(){
+				signin()
+			});
+			function signin(){
+				var $objParent = $(".signin-box");
+				var post_data={
+					email:$objParent.find("input[name='email']").val(),
+					passwd:$objParent.find("input[name='passwd']").val()
+				}
+				$objParent.find("input").parents(".input-group").removeClass("has-error");
+				var errorMSG=[];
+				if(!post_data.email || !haitoubang.validateEmail(post_data.email)){
+					$objParent.find("input[name='email']").parents(".input-group").addClass("has-error");
+					errorMSG.push("邮箱格式错误！");
+				}
+				if(!post_data.passwd||post_data.passwd.length<6||post_data.passwd.length>16){
+					$objParent.find("input[name='passwd']").parents(".input-group").addClass("has-error");
+					errorMSG.push("请填写6-16位的密码！");
+				}
+				if(errorMSG && errorMSG.length>0){
+					return $objParent.find(".text-danger").html(errorMSG[0]).removeClass("hide");
+				}
+				post_data.passwd=$.md5(post_data.passwd)
+				$(".modal-backdrop.white").show();
+				$.ajax({
+					type:"post",
+					url: "/api/accounts/signin",
+					async:true,
+					data:JSON.stringify(post_data),
+					success:function(res){
+						res = typeof res === 'string' ? $.parseJSON(res) : res;
+						if(res && res.res_code === 0){
+							location.href= "/apply/list"
+						}else{
+							var err_msg = "";
+							switch (res.res_code){
+								case 1:
+									err_msg = "邮箱不存在";
+									break;
+								case 2:
+									err_msg = "密码不正确";
+									break;
+								case 254:
+									err_msg = "参数缺失";
+									break;
+								default:
+									err_msg = "登录失败，请重试！"
+									break;
+							}
+							return $objParent.find(".text-danger").html(err_msg).removeClass("hide");
+						}
+					},
+					error:function(){alert("登录失败，请重试！");}
+				}).complete(function(){$(".modal-backdrop.white").hide();});
+				return false;
+			}
+		</script>
 	</body>
 </html>
