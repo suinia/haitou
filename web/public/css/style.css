@@ -306,3 +306,27 @@ footer a{
 .feedback-text{
 	padding: 10px;
 }
+.help-text{
+	padding:10px;
+}
+#wbutton { 
+	display: block; 
+	text-decoration: none; 
+	text-align: center;
+    margin: 20px 70px 0 70px; 
+    padding: 4px 0; 
+    color: #557FFE; 
+    border: #CCC solid 1px;
+    border-radius: 5px; font-weight: bold;
+    background: -webkit-gradient(linear, 0 0, 0 bottom, from(#FDFDFD), to(#E3E3E3)); 
+}
+.help-content{
+	padding: 15px;
+}
+.help-content .question{
+	font-weight: bold;
+	margin-bottom: 10px;
+}
+.help-content p{
+	margin-bottom: 10px;
+}

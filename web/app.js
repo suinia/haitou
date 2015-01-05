@@ -19,6 +19,7 @@ var _load_ctrls = function(app){
     });
 	app.get('/', require('./controllers/index').get.index);
 	app.get('/feedback', require('./controllers/index').get.feedback);
+	app.get('/help', require('./controllers/index').get.help);
 	app.get('/apply/list/:id', require('./controllers/index').get.list);
 	
 };

@@ -23,5 +23,8 @@ exp.get.list=function(req, res, next){
 exp.get.feedback=function(req, res, next){
 	return res.render('feedback', {});
 }
+exp.get.help=function(req, res, next){
+	return res.render('help', {});
+}
 
 module.exports = exp;

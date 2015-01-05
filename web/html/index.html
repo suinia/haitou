@@ -2,11 +2,11 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>海投帮 - 投简历快人一步</title>
+		<title>test</title>
 		<link rel="stylesheet" type="text/css" href="/css/style.css"/>
 	</head>
 	<body>
-		<div class="navbar navbar-static-top bs-docs-nav header">
+		<!--<div class="navbar navbar-static-top bs-docs-nav header">
 			<div class="container">
 			    <div class="navbar-header">
 			      <a class="navbar-brand" href="/">海投帮 - 投简历快人一步</a>
@@ -28,8 +28,8 @@
 			    </nav>
 		  	</div>
 		  	<div class="headerShadow"></div>
-		</div>
-		<div class="banner">
+		</div>-->
+		<!--<div class="banner">
 			<div class="container">
 				<div class="left">
 					<h2>海投帮</h2>
@@ -40,8 +40,9 @@
 				</div>
 				<span class="haitoumac"></span>
 			</div>
-		</div>
-		<div class="container support">
+		</div>-->
+		<a id="immediateDownload"  class="button-outline" href="http://haitoubang.com/haitou.crx" onclick="return install(event)" rel="nofollow">立即下载</a>
+		<!--<div class="container support">
 			<div class="row">
 				<div class="support-item col-md-4">
 					<span class="icon"><i class="fa fa-rocket"></i></span>
@@ -59,13 +60,49 @@
 					<p>HR已读、HR回复自动提醒，机会宝贵，不再错过！</p>
 				</div>
 			</div>
-		</div>
-		<footer>
+		</div>-->
+		<!--<footer>
 			<div class="container">
 				<p class="text-center"><a href="/">下载插件</a><a href="/feedback">意见反馈</a></p>
 				<p class="text-center copyright"><i class="fa fa-copyright"></i> 2015海投帮</p>
 			</div>
-		</footer>
+		</footer>-->
 		<script type="text/javascript" src="/js/common.js"></script>
+		<script type="text/javascript" src="/js/dialog.js"></script>
+		<script  type="text/javascript">
+            var browser = "chrome";
+            var downloadUrl = 'http://haitoubang.com/haitou.crx';
+			function install (aEvent) {
+				if (browser == 'chrome' &&
+			            (aEvent.srcElement.id === "immediateDownload" ||
+			            aEvent.srcElement.className === "icon-chrome")) {
+			        if (checkBrowser() === 'chrome') {
+			            $("#immediateDownload").attr("href", downloadUrl);
+			            return true;
+			        }
+			        var v = /chrome\/(\d+)/i.exec(navigator.userAgent);
+			        if (v && v[1] && parseInt(v[1]) > 20) {
+			            chrome.webstore.install("https://chrome.google.com/webstore/detail/iglncpchjeoojhjofbcgboddgnogjimg");
+			            setTimeout(function () {
+			                var dialog = new Dialog({
+								width:400,
+								content:$("<div class='help-text'><h3>温馨提示</h3>如果您点击下载后，长时间没有响应，有可能这个链接地址暂时无法正常访问。<br> <a id='wbutton' href='/help'>查看解决方法</a></div>")
+							});
+			            }, 3000);
+			            return false;
+			        } else if (v && v[1] && parseInt(v[1]) <= 17) {
+			            var dialog = new Dialog({
+							width:400,
+							content:$("<div class='help-text'><h3>温馨提示</h3>您正在使用的浏览器Chrome内核版本过低，无法正常使用有道购物助手，请升级您的浏览器。<br> <a id='wbutton' href='/help'>查看解决方法</a></div>")
+						});
+			            return false;
+			        }
+			    } else if (browser == 'maxthon') {
+			        window.external.mxCall('InstallApp', downloadUrl);
+			        return false;
+			    }
+			    return true;
+			}
+		</script>
 	</body>
 </html>
