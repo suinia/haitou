@@ -167,7 +167,7 @@
 		});
 	}
 	Haitoubang.prototype.getEmailAddr=function(){
-		var text=haitou_$("body").html(),reg=/[\w\.\+-]+@[\w\.\+-]+/g,
+		var text=haitou_$("body").html(),reg=/(\w)+(\.\w+)*@(\w)+((\.\w+)+)/g,
 			arr = text.match(reg);
 		var haitou_user = this.userinfo,unemail="";
 		if(haitou_user && haitou_user!=""){

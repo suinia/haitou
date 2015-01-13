@@ -1,4 +1,23 @@
 var HAITOU_URL="http://haitoubang.sinaapp.com";
+function getVersionInManifest() {
+    var version = 'NaN';
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', chrome.extension.getURL('manifest.json'), false);
+    xhr.send(null);
+    var manifest = JSON.parse(xhr.responseText);
+    return manifest.version;
+}
+/* 检查是否更新 */
+(function checkUpdate() {
+    var currVersion = getVersionInManifest();
+    var prevVersion = get('version');
+    set('version', currVersion);
+    if (currVersion != prevVersion) {
+        if (typeof prevVersion === 'undefined') {
+            chrome.tabs.create({ selected: true, url: 'http://haitoubang.com/sample' });
+        }
+    }
+})();
 function get(key) {
     return localStorage[key];
 }
